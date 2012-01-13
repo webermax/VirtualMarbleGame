@@ -1,0 +1,15 @@
+//
+//  Roadmap.txt
+//  VirtualMarbleGame
+//
+//  Created by Maximilian Weber on 13/01/2012.
+//
+
+1) Virtual representation of game board
+    1.1) Represent Movements Using Marker Tracking
+
+2) Virtual Representation of marble
+
+3) Implementing Game Modes
+    3.1) Vertical
+    3.2) Horizontal
