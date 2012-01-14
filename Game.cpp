@@ -1,8 +1,8 @@
 //
-//  main.cpp
+//  Game.cpp
 //  VirtualMarbleGame
 //
-//  Created by Maximilian Weber on 12/01/2012.
+//  Created by ?
 //
 
 #include <iostream>
