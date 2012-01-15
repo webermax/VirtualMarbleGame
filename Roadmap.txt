@@ -5,7 +5,7 @@
 //  Created by Maximilian Weber on 13/01/2012.
 //
 
-0) Understand git
+0) Understand git - test
 
 1) Virtual representation of game board
     1.1) Represent Movements Using Marker Tracking
