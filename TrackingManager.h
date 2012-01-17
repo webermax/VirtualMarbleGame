@@ -9,7 +9,6 @@
 #define VirtualMarbleGame_Tracking_h
 
 #include "VideoManager.h"
-#include "BoardMatrix.h"
 
 class VideoManager;
 class BoardMatrix;

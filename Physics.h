@@ -10,7 +10,6 @@
 
 #include "Board.h"
 #include "Marble.h"
-#include "Pose.h"
 
 class Board;
 class Marble;

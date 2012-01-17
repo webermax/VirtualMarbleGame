@@ -9,8 +9,6 @@
 #define VirtualMarbleGame_Board_h
 
 #include "TrackingManager.h"
-#include "Pose.h"
-#include "Labyrinth.h"
 
 class TrackingManager;
 class Pose;

@@ -9,7 +9,7 @@
 #define VirtualMarbleGame_Marble_h
 
 #include "Physics.h"
-#include "Pose.h"
+#include "PoseEstimation.h"
 
 class Physics;
 class Pose;

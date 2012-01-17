@@ -20,7 +20,11 @@ class Graphics {
     
 public:
     
-    void render();
+    void display();
+    
+    void idle();
+    
+    void init();
     
 private:
     
@@ -29,6 +33,16 @@ private:
     Marble* marble;
     
     VideoManager* videoManager;
+    
+    void resize( int width, int height);
+    
+    void buildBlock();
+    
+    GLuint LoadTGATexture( const char * filename);
+    
+    void buildBoard();
+    
+    void renderBoard();
     
 };
 

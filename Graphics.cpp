@@ -3,11 +3,9 @@
 //  VirtualMarbleGame
 //
 //  Created by Kanzler Mathias on 15.01.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-
-
+#include "Graphics.h"
 
 #include <iostream>
 #include <fstream>
@@ -96,7 +94,7 @@ glBegin(GL_QUADS);
 
 
 
-GLuint LoadTGATexture( const char * filename)
+GLuint Graphics::LoadTGATexture( const char * filename)
 {
 	struct HeaderStruct {
         char type;  // Typ 2 (24/32-Bit TGA ohne Kompression),
@@ -158,7 +156,7 @@ GLuint LoadTGATexture( const char * filename)
 }
 
 
-void buildBoard()
+void Graphics::buildBoard()
 {
     
     
@@ -171,7 +169,7 @@ void buildBoard()
 
 }
 
-void renderBoard()
+void Graphics::renderBoard()
 {
     
     for(int x=0;x<30;x++)
@@ -198,7 +196,7 @@ void renderBoard()
 
 
 
-void display() 
+void Graphics::display() 
 {
     // clear buffers
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -233,12 +231,12 @@ void display()
     	glutPostRedisplay();
 }
 
-void idle()
+void Graphics::idle()
 {
     }
 
 
-void init()
+void Graphics::init()
 {
     
     // initialize the window system
@@ -281,6 +279,7 @@ void init()
     buildBlock();
     buildBoard();
     
+<<<<<<< HEAD
     
     textur1=  LoadTGATexture( "nyan.tga");
     
@@ -309,4 +308,6 @@ int main(int argc, char* argv[])
     glutMainLoop();
     
     return 0;
+=======
+>>>>>>> moved main function to game.cpp
 }
