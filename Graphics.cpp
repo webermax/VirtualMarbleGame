@@ -17,7 +17,7 @@
 using namespace std;
 
 GLuint block;
-
+GLuint textur1;
 
 
 unsigned char map[30][30];
@@ -180,7 +180,7 @@ void renderBoard()
        if(map[x][y]==1)
        {
            glTranslatef(x,y,0);
-           
+          
            glCallList(block);
            
            glTranslatef(-x,-y,0);
@@ -202,16 +202,16 @@ void display()
 {
     // clear buffers
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    
-   
-    
     glMatrixMode(GL_MODELVIEW);
+    
+    
     glLoadIdentity();
     glEnable(GL_DEPTH_TEST);
 
     
 
     glColor4f(1,1,1,1);
+    glBindTexture(GL_TEXTURE_2D, textur1);
      
 	glTranslatef(0,-5,-40);
     glRotatef(90,1,0,0);
@@ -281,6 +281,13 @@ void init()
     buildBlock();
     buildBoard();
     
+    
+    textur1=  LoadTGATexture( "/Users/Mathias/Desktop/TGAtest.tga");
+    
+    glEnable(GL_TEXTURE_2D);
+    
+    
+    
 }
 
 
@@ -288,8 +295,9 @@ int main(int argc, char* argv[])
 {
     
      glutInit( &argc,  argv);
+   
     init();
-  
+
     
     // make functions known to GLUT
     glutDisplayFunc( display );
