@@ -18,10 +18,11 @@ GLuint block;
 GLuint textur1;
 
 
-unsigned char map[30][30];
+unsigned char labyrinthMap[30][30];
+
 double ry;
 
-void resize( int width, int height) 
+void Graphics::resize( int width, int height) 
 {
 
     glViewport( 0, 0, width, height );
@@ -35,7 +36,7 @@ void resize( int width, int height)
 
 
 
-void buildBlock()
+void Graphics::buildBlock()
 {
      block = glGenLists(1);
     
@@ -163,11 +164,14 @@ void Graphics::buildBoard()
     for(int x=0;x<30;x++)
         for(int y=0;y<30;y++)     
         {
-            map[x][y]=rand()%3;
+            labyrinthMap[x][y]=rand()%3;
             
         }
 
 }
+ Graphics::Graphics()
+{}
+
 
 void Graphics::renderBoard()
 {
@@ -175,7 +179,7 @@ void Graphics::renderBoard()
     for(int x=0;x<30;x++)
     for(int y=0;y<30;y++)     
     {
-       if(map[x][y]==1)
+       if(labyrinthMap[x][y]==1)
        {
            glTranslatef(x,y,0);
           
@@ -229,10 +233,7 @@ void Graphics::display()
     glFlush();
     glutSwapBuffers();
     	glutPostRedisplay();
-}
 
-void Graphics::idle()
-{
     }
 
 
@@ -278,8 +279,7 @@ void Graphics::init()
     
     buildBlock();
     buildBoard();
-    
-<<<<<<< HEAD
+
     
     textur1=  LoadTGATexture( "nyan.tga");
     
@@ -287,27 +287,4 @@ void Graphics::init()
     
     
     
-}
-
-
-int main(int argc, char* argv[]) 
-{
-    
-     glutInit( &argc,  argv);
-   
-    init();
-
-    
-    // make functions known to GLUT
-    glutDisplayFunc( display );
-    glutReshapeFunc( resize  );
-    glutIdleFunc(idle);
-    
- 
-    // start the action
-    glutMainLoop();
-    
-    return 0;
-=======
->>>>>>> moved main function to game.cpp
 }

@@ -11,6 +11,7 @@
 #include "Board.h"
 #include "Marble.h"
 #include "VideoManager.h"
+#include <opengl/OpenGL.h>
 
 class Board;
 class Marble;
@@ -19,12 +20,13 @@ class VideoManager;
 class Graphics {
     
 public:
+    Graphics();  
     
     void display();
-    
-    void idle();
-    
+ 
     void init();
+    
+     void resize( int width, int height);
     
 private:
     
@@ -34,8 +36,7 @@ private:
     
     VideoManager* videoManager;
     
-    void resize( int width, int height);
-    
+   
     void buildBlock();
     
     GLuint LoadTGATexture( const char * filename);
