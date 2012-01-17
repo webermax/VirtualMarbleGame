@@ -75,10 +75,10 @@ glBegin(GL_QUADS);
     
     // Right 
     glNormal3f(1,0,0);
-    glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -0.0f, -0.0f);  
-    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -0.0f);  
-    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);  
-    glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -0.0f,  1.0f);  
+    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f, -0.0f, -0.0f);  
+    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -0.0f);  
+    glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);  
+    glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -0.0f,  1.0f);  
     
     // Left 
     glNormal3f(-1,0,0);
@@ -282,7 +282,7 @@ void init()
     buildBoard();
     
     
-    textur1=  LoadTGATexture( "/Users/Mathias/Desktop/TGAtest.tga");
+    textur1=  LoadTGATexture( "nyan.tga");
     
     glEnable(GL_TEXTURE_2D);
     
