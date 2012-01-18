@@ -22,6 +22,8 @@ unsigned char labyrinthMap[30][30];
 
 double ry;
 
+
+
 void Graphics::resize( int width, int height) 
 {
 
@@ -169,8 +171,11 @@ void Graphics::buildBoard()
         }
 
 }
- Graphics::Graphics()
-{}
+
+Graphics::Graphics()
+{
+
+}
 
 
 void Graphics::renderBoard()
@@ -214,7 +219,8 @@ void Graphics::display()
 
     glColor4f(1,1,1,1);
     glBindTexture(GL_TEXTURE_2D, textur1);
-     
+     glEnable(GL_TEXTURE_GEN_S); 
+    glEnable(GL_TEXTURE_GEN_T); 
 	glTranslatef(0,-5,-40);
     glRotatef(90,1,0,0);
     
@@ -227,8 +233,12 @@ void Graphics::display()
    
 
     renderBoard();
-       
-       // glutSolidSphere( 1, 10, 10 );
+    
+    glLoadIdentity();
+    
+    glTranslatef(0,0,-20);
+      glRotatef(ry,0.2,1,0);
+    glutSolidSphere( 1, 30, 30 );
     
     glFlush();
     glutSwapBuffers();
@@ -275,7 +285,8 @@ void Graphics::init()
     glEnable( GL_LIGHTING );
     glEnable( GL_LIGHT0 );  
     
-    
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);   
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);  
     
     buildBlock();
     buildBoard();
