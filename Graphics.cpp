@@ -40,12 +40,11 @@ void Graphics::resize( int width, int height)
 
 void Graphics::buildBlock()
 {
-     block = glGenLists(1);
-    
+    block = glGenLists(1);
    
     glNewList(block, GL_COMPILE);
     
-glBegin(GL_QUADS);
+    glBegin(GL_QUADS);
     // Bottom 
     glNormal3f(0,-1,0);
     glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.0f, -0.0f, -0.0f);  
@@ -172,15 +171,14 @@ void Graphics::buildBoard()
 
 }
 
-Graphics::Graphics()
+Graphics::Graphics(Marble* marble)
 {
-
+    m_marble = marble;
 }
 
 
 void Graphics::renderBoard()
 {
-    
     for(int x=0;x<30;x++)
     for(int y=0;y<30;y++)     
     {
@@ -193,17 +191,15 @@ void Graphics::renderBoard()
            glTranslatef(-x,-y,0);
 
        }
-        
-        
     }
-    
-    
 }
 
-
-
-
-
+void Graphics::renderMarble()
+{
+    glTranslatef( m_marble->getX(), m_marble->getY(), m_marble->getZ() );
+    glRotatef(ry,0.2,1,0);
+    glutSolidSphere( m_marble->getRadius(), 30, 30 );
+}
 
 void Graphics::display() 
 {
@@ -211,15 +207,12 @@ void Graphics::display()
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     glMatrixMode(GL_MODELVIEW);
     
-    
     glLoadIdentity();
     glEnable(GL_DEPTH_TEST);
 
-    
-
     glColor4f(1,1,1,1);
     glBindTexture(GL_TEXTURE_2D, textur1);
-     glEnable(GL_TEXTURE_GEN_S); 
+    glEnable(GL_TEXTURE_GEN_S); 
     glEnable(GL_TEXTURE_GEN_T); 
 	glTranslatef(0,-5,-40);
     glRotatef(90,1,0,0);
@@ -227,24 +220,19 @@ void Graphics::display()
     glRotatef(ry,0,0,1);
     glTranslatef(-15,-15,0);
     
-    ry+=0.01;
-
-   
-   
+    ry += 0.01;
 
     renderBoard();
     
     glLoadIdentity();
     
-    glTranslatef(0,0,-20);
-      glRotatef(ry,0.2,1,0);
-    glutSolidSphere( 1, 30, 30 );
+    renderMarble();
     
     glFlush();
     glutSwapBuffers();
-    	glutPostRedisplay();
+    glutPostRedisplay();
 
-    }
+}
 
 
 void Graphics::init()
@@ -295,7 +283,5 @@ void Graphics::init()
     textur1=  LoadTGATexture( "nyan.tga");
     
     glEnable(GL_TEXTURE_2D);
-    
-    
     
 }

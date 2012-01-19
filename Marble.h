@@ -8,30 +8,49 @@
 #ifndef VirtualMarbleGame_Marble_h
 #define VirtualMarbleGame_Marble_h
 
-#include "Physics.h"
-
-class Physics;
-class Pose;
-
 class Marble {
     
 public:
     
-    Pose* getPose();
+    Marble(float x, float y, float z, float radius, float weight);
     
     float getRadius();
     
     float getWeight();
     
+    float getX();
+    
+    float getY();
+    
+    float getZ();
+    
+    void setRadius(float radius);
+    
+    void setWeight(float weight);
+    
+    void setX(float x);
+    
+    void setY(float y);
+    
+    void setZ(float z);
+    
+    void translateX(float x);
+    
+    void translateY(float y);
+    
+    void translateZ(float z);
+    
 private:
     
-    Pose* pose;
+    float m_x;
     
-    Physics* physics;
+    float m_y;
     
-    float radius;
+    float m_z;
     
-    float weight;
+    float m_weight;
+    
+    float m_radius;
     
 };
 

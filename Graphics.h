@@ -20,22 +20,26 @@ class VideoManager;
 class Graphics {
     
 public:
-    Graphics();  
+    
+    Graphics(Marble* marble);  
     
     void display();
  
     void init();
     
-     void resize( int width, int height);
+    void resize( int width, int height);
+    
+    void setMarble(Marble* marble);
+    
+    Marble* getMarble();
     
 private:
     
-    Board* board;
+    Board* m_board;
     
-    Marble* marble;
+    Marble* m_marble;
     
-    VideoManager* videoManager;
-    
+    VideoManager* m_videoManager;
    
     void buildBlock();
     
@@ -44,6 +48,8 @@ private:
     void buildBoard();
     
     void renderBoard();
+    
+    void renderMarble();
     
 };
 
