@@ -11,12 +11,17 @@
 #include <opengl/OpenGL.h>
 #include "Graphics.h"
 #include "Marble.h"
+#include "Labyrinth.h"
 
 using namespace std;
 
 Marble *m;
-
 Graphics *g;
+Labyrinth *l; 
+
+void display();
+void resize( int, int );
+void idle();
     
     
 void display()
@@ -45,7 +50,9 @@ int main(int argc, char* argv[])
     
     m = new Marble(0.0, 0.0, -20.0, 1.0, 1.0);
     
-    g = new Graphics(m);
+    l = new Labyrinth();
+    
+    g = new Graphics(m, l);
     
     glutInit( &argc,  argv);
     

@@ -8,28 +8,31 @@
 #ifndef VirtualMarbleGame_Graphics_h
 #define VirtualMarbleGame_Graphics_h
 
+#include <GLUT/glut.h>
+
 #include "Board.h"
 #include "Marble.h"
 #include "VideoManager.h"
-#include <opengl/OpenGL.h>
+#include "Labyrinth.h"
 
 class Board;
 class Marble;
+class Labyrinth;
 class VideoManager;
 
 class Graphics {
     
 public:
     
-    Graphics(Marble* marble);  
+    Graphics(Marble*, Labyrinth*);  
     
     void display();
  
     void init();
     
-    void resize( int width, int height);
+    void resize( int, int);
     
-    void setMarble(Marble* marble);
+    void setMarble(Marble*);
     
     Marble* getMarble();
     
@@ -39,13 +42,13 @@ private:
     
     Marble* m_marble;
     
+    Labyrinth* m_labyrinth;
+    
     VideoManager* m_videoManager;
    
-    void buildBlock();
+    void buildBlock( bool, bool, bool, bool, bool, bool );
     
     GLuint LoadTGATexture( const char * filename);
-    
-    void buildBoard();
     
     void renderBoard();
     

@@ -11,18 +11,13 @@
 #include <fstream>
 //#include <iomanip>
 #include <opengl/opengl.h>
-#include <GLUT/glut.h>
+
 using namespace std;
 
 GLuint block;
 GLuint textur1;
 
-
-unsigned char labyrinthMap[30][30];
-
 double ry;
-
-
 
 void Graphics::resize( int width, int height) 
 {
@@ -38,54 +33,67 @@ void Graphics::resize( int width, int height)
 
 
 
-void Graphics::buildBlock()
+void Graphics::buildBlock( bool bottom = 1, bool top = 1, bool front = 1, bool back = 1, bool right = 1, bool left = 1 )
 {
     block = glGenLists(1);
    
     glNewList(block, GL_COMPILE);
     
     glBegin(GL_QUADS);
-    // Bottom 
-    glNormal3f(0,-1,0);
-    glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.0f, -0.0f, -0.0f);  
-    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f, -0.0f, -0.0f);
-    glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -0.0f,  1.0f);  
-    glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.0f, -0.0f,  1.0f);  
     
-    // Top Face
-    glNormal3f(0,1,0);
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.0f,  1.0f, -0.0f); 
-    glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.0f,  1.0f,  1.0f);  
-    glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);  
-    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -0.0f);  
+    // Bottom
+    if(bottom) {
+        glNormal3f(0,-1,0);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.0f, -0.0f, -0.0f);  
+        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f, -0.0f, -0.0f);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -0.0f,  1.0f);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.0f, -0.0f,  1.0f);
+    }
+    
+    // Top
+    if(top) {
+        glNormal3f(0,1,0);
+        glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.0f,  1.0f, -0.0f);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.0f,  1.0f,  1.0f);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -0.0f);
+    }
     
     // Front
-    glNormal3f(0,0,1);
-    glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.0f, -0.0f,  1.0f); 
-    glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -0.0f,  1.0f); 
-    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f); 
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.0f,  1.0f,  1.0f); 
+    if(front) {
+        glNormal3f(0,0,1);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.0f, -0.0f,  1.0f);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -0.0f,  1.0f);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);
+        glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.0f,  1.0f,  1.0f);
+    }
     
-    // Back 
-    glNormal3f(0,0,-1);
-    glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.0f, -0.0f, -0.0f);  
-    glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.0f,  1.0f, -0.0f);  
-    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -0.0f);  
-    glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -0.0f, -0.0f);  
+    // Back
+    if(back) {
+        glNormal3f(0,0,-1);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.0f, -0.0f, -0.0f);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.0f,  1.0f, -0.0f);
+        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -0.0f);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -0.0f, -0.0f);
+    }
     
-    // Right 
-    glNormal3f(1,0,0);
-    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f, -0.0f, -0.0f);  
-    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -0.0f);  
-    glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);  
-    glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -0.0f,  1.0f);  
+    // Right
+    if(right) {
+        glNormal3f(1,0,0);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f, -0.0f, -0.0f);
+        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -0.0f);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -0.0f,  1.0f);
+    }
     
-    // Left 
-    glNormal3f(-1,0,0);
-    glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.0f, -0.0f, -0.0f);  
-    glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.0f, -0.0f,  1.0f);  
-    glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.0f,  1.0f,  1.0f); 
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.0f,  1.0f, -0.0f); 
+    // Left
+    if(left) {
+        glNormal3f(-1,0,0);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.0f, -0.0f, -0.0f);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.0f, -0.0f,  1.0f);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.0f,  1.0f,  1.0f);
+        glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.0f,  1.0f, -0.0f);
+    }
   
     glEnd();
     
@@ -157,32 +165,19 @@ GLuint Graphics::LoadTGATexture( const char * filename)
     return texture;		
 }
 
-
-void Graphics::buildBoard()
-{
-    
-    
-    for(int x=0;x<30;x++)
-        for(int y=0;y<30;y++)     
-        {
-            labyrinthMap[x][y]=rand()%3;
-            
-        }
-
-}
-
-Graphics::Graphics(Marble* marble)
+Graphics::Graphics(Marble* marble, Labyrinth* labyrinth)
 {
     m_marble = marble;
+    m_labyrinth = labyrinth;
 }
 
 
 void Graphics::renderBoard()
 {
     for(int x=0;x<30;x++)
-    for(int y=0;y<30;y++)     
+    for(int y=0;y<30;y++)  
     {
-       if(labyrinthMap[x][y]==1)
+       if(m_labyrinth->hasBlock(x,y)==1)
        {
            glTranslatef(x,y,0);
           
@@ -277,8 +272,6 @@ void Graphics::init()
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);  
     
     buildBlock();
-    buildBoard();
-
     
     textur1=  LoadTGATexture( "nyan.tga");
     
