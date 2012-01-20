@@ -10,6 +10,10 @@
 
 #define VirtualMarbleGame_Labyrinth_size 30
 
+#ifdef __linux
+	#include <stdlib.h>
+#endif
+
 class Labyrinth {
     
 public:
