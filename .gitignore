@@ -1,1 +1,14 @@
+# git files
 *.DS_Store
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# autobackup files (kate, vim)
+*~
+
+# Compiled binaries
+bin
+
