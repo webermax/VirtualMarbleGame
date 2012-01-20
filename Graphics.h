@@ -8,7 +8,13 @@
 #ifndef VirtualMarbleGame_Graphics_h
 #define VirtualMarbleGame_Graphics_h
 
-#include <GLUT/glut.h>
+#ifdef __linux
+	#include <GL/gl.h>
+	#include <GL/freeglut.h>
+#else
+	#include <opengl/OpenGL.h>
+	#include <GLUT/glut.h>
+#endif
 
 #include "Board.h"
 #include "Marble.h"

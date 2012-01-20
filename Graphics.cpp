@@ -10,7 +10,6 @@
 #include <iostream>
 #include <fstream>
 //#include <iomanip>
-#include <opengl/opengl.h>
 
 using namespace std;
 

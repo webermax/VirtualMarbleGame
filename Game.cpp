@@ -7,8 +7,6 @@
 
 #include <iostream>
 
-#include <GLUT/glut.h>
-#include <opengl/OpenGL.h>
 #include "Graphics.h"
 #include "Marble.h"
 #include "Labyrinth.h"
