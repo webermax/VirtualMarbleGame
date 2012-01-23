@@ -30,7 +30,7 @@ class Graphics {
     
 public:
     
-    Graphics(Marble*, Labyrinth*);  
+    Graphics(Marble*, Labyrinth*, VideoManager*);  
     
     void display();
  

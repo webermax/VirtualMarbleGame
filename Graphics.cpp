@@ -164,10 +164,11 @@ GLuint Graphics::LoadTGATexture( const char * filename)
     return texture;		
 }
 
-Graphics::Graphics(Marble* marble, Labyrinth* labyrinth)
+Graphics::Graphics(Marble* marble, Labyrinth* labyrinth, VideoManager* videoManager)
 {
     m_marble = marble;
     m_labyrinth = labyrinth;
+    m_videoManager = videoManager;
 }
 
 
@@ -202,7 +203,26 @@ void Graphics::display()
     glMatrixMode(GL_MODELVIEW);
     
     glLoadIdentity();
+    
+    // draw background image
+    glDisable( GL_DEPTH_TEST );
+    
+    glMatrixMode( GL_PROJECTION );
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D( 0.0, CAM_WIDTH, 0.0, CAM_HEIGHT );
+    
+    glRasterPos2i( 0, CAM_HEIGHT-1 );
+    // TODO: has to work with getThresholdImage()
+    m_videoManager->capture();
+    glDrawPixels( CAM_WIDTH, CAM_HEIGHT, GL_BGR_EXT, GL_UNSIGNED_BYTE, m_videoManager->getCameraImage() );
+    
+    glPopMatrix();
+    
     glEnable(GL_DEPTH_TEST);
+    
+    // move to origin
+    glMatrixMode( GL_MODELVIEW );
 
     glColor4f(1,1,1,1);
     glBindTexture(GL_TEXTURE_2D, textur1);

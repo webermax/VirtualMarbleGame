@@ -5,22 +5,26 @@
 //  Created by Maximilian Weber
 //
 
+// TODO: release resources
+// TODO: move display(), idle(), void resize(int w, int h) to graphics.cpp
+
 #include <iostream>
 
 #include "Graphics.h"
 #include "Marble.h"
 #include "Labyrinth.h"
+#include "VideoManager.h"
 
 using namespace std;
 
 Marble *m;
 Graphics *g;
-Labyrinth *l; 
+Labyrinth *l;
+VideoManager *v;
 
 void display();
 void resize( int, int );
 void idle();
-    
     
 void display()
 {    
@@ -45,12 +49,13 @@ void idle()
 
 int main(int argc, char* argv[]) 
 {
+    v = new VideoManager();
     
     m = new Marble(0.0, 0.0, -20.0, 1.0, 1.0);
     
     l = new Labyrinth();
     
-    g = new Graphics(m, l);
+    g = new Graphics(m, l, v);
     
     glutInit( &argc,  argv);
     

@@ -2,11 +2,15 @@
 //  VideoManager.h
 //  VirtualMarbleGame
 //
-//  Created by Maximilian Weber on 14/01/2012.
+//  Created by Maximilian Weber
 //
 
 #ifndef VirtualMarbleGame_VideoManager_h
 #define VirtualMarbleGame_VideoManager_h
+
+#define CAM_WIDTH 640
+#define CAM_HEIGHT 480
+#define CAM_ANGLE 35
 
 #include <iostream>
 #include <iomanip>
@@ -16,7 +20,25 @@ class VideoManager {
     
 public:
     
-     IplImage* getImage();
+    VideoManager();
+    
+    ~VideoManager();
+    
+    void initVideoStream();
+    
+    unsigned char *getCameraImage();
+    
+    void capture();
+    
+    IplImage* getThresholdImage();
+    
+private:
+    
+    CvCapture* m_cap;
+    
+    IplImage* m_grab;
+    
+    CvSize m_picSize;
     
 };
 
