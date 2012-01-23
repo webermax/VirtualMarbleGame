@@ -22,6 +22,7 @@ void VideoManager::initVideoStream() {
         cout << "No webcam found. Exiting.\n";
         exit(0);
     }
+    capture();
 }
 
 void VideoManager::capture() {
@@ -37,13 +38,17 @@ void VideoManager::capture() {
     m_picSize = cvGetSize(m_grab);
 }
 
-unsigned char *VideoManager::getCameraImage() {
-    static unsigned char bkgnd[CAM_WIDTH * CAM_HEIGHT * 3];
+unsigned char *VideoManager::getCameraImage()
+{
+    //static unsigned char bkgnd[CAM_WIDTH * CAM_HEIGHT * 3];
+    
+    //memcpy( bkgnd, iplbkgnd->imageData, sizeof(bkgnd) );
     
     // isight issue
-    IplImage* iplbkgnd = cvCreateImage(m_picSize, IPL_DEPTH_8U, 3);
-    cvCvtColor(m_grab, iplbkgnd, CV_BGR2RGB);
+    for ( int i=0, j=0; i < m_grab->imageSize && j < sizeof(bkgnd); i += m_grab->widthStep, j += CAM_WIDTH * 3 )
+    {
+        memcpy( bkgnd+j, m_grab->imageData+i, CAM_WIDTH * 3);    
+    }
     
-    memcpy( bkgnd, iplbkgnd->imageData, sizeof(bkgnd) );
     return bkgnd;
 }

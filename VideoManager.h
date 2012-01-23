@@ -40,6 +40,8 @@ private:
     
     CvSize m_picSize;
     
+    unsigned char bkgnd[CAM_WIDTH * CAM_HEIGHT * 3];
+    
 };
 
 #endif

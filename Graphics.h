@@ -38,6 +38,8 @@ public:
     
     void resize( int, int);
     
+    void idle();
+    
     void setMarble(Marble*);
     
     Marble* getMarble();

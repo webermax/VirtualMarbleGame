@@ -30,7 +30,10 @@ void Graphics::resize( int width, int height)
     glutPostRedisplay();
 }
 
-
+void Graphics::idle() 
+{
+    m_videoManager->capture();
+}
 
 void Graphics::buildBlock( bool bottom = 1, bool top = 1, bool front = 1, bool back = 1, bool right = 1, bool left = 1 )
 {
@@ -192,7 +195,6 @@ void Graphics::renderBoard()
 void Graphics::renderMarble()
 {
     glTranslatef( m_marble->getX(), m_marble->getY(), m_marble->getZ() );
-    glRotatef(ry,0.2,1,0);
     glutSolidSphere( m_marble->getRadius(), 30, 30 );
 }
 
@@ -213,8 +215,6 @@ void Graphics::display()
     gluOrtho2D( 0.0, CAM_WIDTH, 0.0, CAM_HEIGHT );
     
     glRasterPos2i( 0, CAM_HEIGHT-1 );
-    // TODO: has to work with getThresholdImage()
-    m_videoManager->capture();
     glDrawPixels( CAM_WIDTH, CAM_HEIGHT, GL_BGR_EXT, GL_UNSIGNED_BYTE, m_videoManager->getCameraImage() );
     
     glPopMatrix();
@@ -265,8 +265,7 @@ void Graphics::init()
     
     // initialize the window system
    
-    glutInitWindowSize( 600,600);
-    
+    glutInitWindowSize( 640,480);
     
     glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
     glutCreateWindow("Graphics");
