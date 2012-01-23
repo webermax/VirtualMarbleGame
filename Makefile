@@ -1,19 +1,23 @@
-build:	Game.o Graphics.o Labyrinth.o Marble.o
-	g++ -lGL -lGLU -lglut -o bin/Game Graphics.o Game.o Marble.o Labyrinth.o
+LINKYLIBS=-lGL -lGLU -lglut  -lopencv_core -lopencv_imgproc -lopencv_highgui
+
+build:	Game.o Graphics.o Labyrinth.o Marble.o VideoManager.o
+	g++ ${LINKYLIBS} -o bin/Game Graphics.o Game.o Marble.o Labyrinth.o VideoManager.o
 
 Game.o:	
-	g++ -lGL -lGLU -lglut -c Game.cpp
+	g++ -c Game.cpp
 
 Graphics.o:	
-	g++ -lGL -lGLU -lglut -c Graphics.cpp
+	g++ -c Graphics.cpp
 
 Labyrinth.o:	
-	g++ -lGL -lGLU -lglut -c Labyrinth.cpp
+	g++ -c Labyrinth.cpp
 
 Marble.o:	
-	g++ -lGL -lGLU -lglut -c Marble.cpp
+	g++ -c Marble.cpp
+
+VideoManager.o:	
+	g++ -c VideoManager.cpp
 
 clean:	
 	rm *.o bin/*
-
 
