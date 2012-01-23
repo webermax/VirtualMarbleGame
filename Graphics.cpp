@@ -226,31 +226,21 @@ void Graphics::display()
 
     glColor4f(1,1,1,1);
     glBindTexture(GL_TEXTURE_2D, textur1);
-<<<<<<< HEAD
+
     glEnable(GL_TEXTURE_GEN_S); 
     glEnable(GL_TEXTURE_GEN_T); 
-=======
-   //  glBindTexture(GL_TEXTURE_2D, NULL);
-    
-    glDisable(GL_TEXTURE_GEN_S); 
-    glDisable(GL_TEXTURE_GEN_T); 
-    
-    
->>>>>>> Sphere Mapping Anpassungen
+
 	glTranslatef(0,-5,-40);
     glRotatef(90,1,0,0);
     
     glRotatef(ry,0,0,1);
     glTranslatef(-15,-15,0);
     
-<<<<<<< HEAD
-    ry += 0.01;
-=======
+
     ry+=0.02;
 
    
-   
->>>>>>> Sphere Mapping Anpassungen
+
 
     renderBoard();
     
