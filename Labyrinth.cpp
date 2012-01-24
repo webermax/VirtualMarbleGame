@@ -9,8 +9,9 @@
 
 #include "Labyrinth.h"
 
-Labyrinth::Labyrinth() {
-    
+Labyrinth::Labyrinth() 
+{
+  
     for(int x=0;x<30;x++)
     {
         for(int y=0;y<30;y++)     

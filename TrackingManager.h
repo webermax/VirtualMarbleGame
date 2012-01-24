@@ -16,7 +16,7 @@ class BoardMatrix;
 class TrackingManager {
     
 public:
-    
+    TrackingManager ();
     BoardMatrix* getBoardMatrix();
     
 private:

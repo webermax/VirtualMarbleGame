@@ -228,8 +228,8 @@ void Graphics::display()
     glColor4f(1,1,1,1);
     glBindTexture(GL_TEXTURE_2D, textur1);
 
-    glEnable(GL_TEXTURE_GEN_S); 
-    glEnable(GL_TEXTURE_GEN_T); 
+    glDisable(GL_TEXTURE_GEN_S); 
+    glDisable(GL_TEXTURE_GEN_T); 
 
 	glTranslatef(0,-5,-40);
     glRotatef(90,1,0,0);
