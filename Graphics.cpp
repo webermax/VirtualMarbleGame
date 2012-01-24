@@ -260,7 +260,7 @@ void Graphics::display()
 }
 
 
-void Graphics::init()
+int Graphics::init()
 {
     
     // initialize the window system
@@ -268,7 +268,7 @@ void Graphics::init()
     glutInitWindowSize( 640,480);
     
     glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
-    glutCreateWindow("Graphics");
+    int windowId = glutCreateWindow("Virtual Marble Game");
     
     // initialize the GL library
     
@@ -305,5 +305,7 @@ void Graphics::init()
     textur1=  LoadTGATexture( "/Users/Mathias/Desktop/brickwall1.tga");
     
     glEnable(GL_TEXTURE_2D);
+    
+    return windowId;
     
 }

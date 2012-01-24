@@ -25,6 +25,21 @@ void display();
 void resize( int, int );
 void idle();
 static void timer(int value);
+void hitkey( unsigned char key, int x, int y );
+
+int windowId;
+
+void hitkey( unsigned char key, int x, int y )
+{
+    switch ( key )
+    {
+        case 27: // Escape key
+            glutDestroyWindow ( windowId );
+            exit (0);
+            break;
+    }
+    //glutPostRedisplay();
+}
     
 void display()
 {    
@@ -71,12 +86,13 @@ int main(int argc, char* argv[])
     
     glutInit( &argc,  argv);
     
-    g->init();
+    windowId = g->init();
     
     // make functions known to GLUT
     glutDisplayFunc( display );
     glutReshapeFunc( resize  );
     glutIdleFunc( idle );
+    glutKeyboardFunc( hitkey );
     //glutTimerFunc(10, timer, 1);
     
     // start the action

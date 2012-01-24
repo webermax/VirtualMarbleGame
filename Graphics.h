@@ -34,7 +34,7 @@ public:
     
     void display();
  
-    void init();
+    int init();
     
     void resize( int, int);
     
