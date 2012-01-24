@@ -8,7 +8,7 @@
 #ifndef VirtualMarbleGame_Labyrinth_h
 #define VirtualMarbleGame_Labyrinth_h
 
-#define VirtualMarbleGame_Labyrinth_size 30
+#define Labyrinth_size 30
 
 #ifdef __linux
 	#include <stdlib.h>
@@ -26,7 +26,7 @@ public:
     
 private:
     
-    bool m_map[30][30];
+    bool m_map[Labyrinth_size][Labyrinth_size];
     
 };
 

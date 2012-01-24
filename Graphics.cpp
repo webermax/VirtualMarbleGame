@@ -177,8 +177,8 @@ Graphics::Graphics(Marble* marble, Labyrinth* labyrinth, VideoManager* videoMana
 
 void Graphics::renderBoard()
 {
-    for(int x=0;x<30;x++)
-    for(int y=0;y<30;y++)  
+    for(int x=0;x<Labyrinth_size;x++)
+    for(int y=0;y<Labyrinth_size;y++)  
     {
        if(m_labyrinth->hasBlock(x,y)==1)
        {
@@ -235,7 +235,7 @@ void Graphics::display()
     glRotatef(90,1,0,0);
     
     glRotatef(ry,0,0,1);
-    glTranslatef(-15,-15,0);
+    glTranslatef(-Labyrinth_size/2,-Labyrinth_size/2,0);
     
 
     ry+=0.2;
@@ -256,7 +256,7 @@ void Graphics::display()
     
     glFlush();
     glutSwapBuffers();
-    glutPostRedisplay();
+   // glutPostRedisplay();
 
 }
 

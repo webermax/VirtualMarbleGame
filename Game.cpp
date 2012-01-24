@@ -69,7 +69,7 @@ static void timer(int value)
     i = fmod(i, M_PI);
     m->setY(abs(sin(i)));
     
-    //glutPostRedisplay();
+    glutPostRedisplay();
     
     /* call back again after elapsedUSecs have passed */
     glutTimerFunc (10, timer, value);
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
     glutReshapeFunc( resize  );
     glutIdleFunc( idle );
     glutKeyboardFunc( hitkey );
-    //glutTimerFunc(10, timer, 1);
+    glutTimerFunc(10, timer, 1);
     
     // start the action
     glutMainLoop();
