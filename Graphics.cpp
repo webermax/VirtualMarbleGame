@@ -207,6 +207,7 @@ void Graphics::display()
     glLoadIdentity();
     
     // draw background image
+     glBindTexture(GL_TEXTURE_2D, NULL);
     glDisable( GL_DEPTH_TEST );
     
     glMatrixMode( GL_PROJECTION );

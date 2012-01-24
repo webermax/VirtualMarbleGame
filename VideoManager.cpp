@@ -4,7 +4,7 @@
 //
 //  Created by Maximilian Weber
 //
-#define is_mac true
+
 
 
 #include <iostream>
@@ -38,10 +38,8 @@ void VideoManager::capture() {
         return;
     }
     
-    // isight issue
-  //  if(is_mac)
-//        cvConvertImage(m_grab, m_grab, CV_CVTIMG_FLIP);
-   //  cvFlip(m_grab, NULL, 1);
+    // Mirrorfeeling
+     cvFlip(m_grab, NULL, 1);
     
     m_picSize = cvGetSize(m_grab);
 }
