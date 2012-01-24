@@ -4,9 +4,12 @@
 //
 //  Created by Maximilian Weber
 //
+#define is_mac true
+
 
 #include <iostream>
 #include <iomanip>
+#include <stdio.h>
 
 #include "VideoManager.h"
 
@@ -34,7 +37,12 @@ void VideoManager::capture() {
         initVideoStream();
         return;
     }
-
+    
+    // isight issue
+  //  if(is_mac)
+//        cvConvertImage(m_grab, m_grab, CV_CVTIMG_FLIP);
+   //  cvFlip(m_grab, NULL, 1);
+    
     m_picSize = cvGetSize(m_grab);
 }
 
@@ -44,7 +52,8 @@ unsigned char *VideoManager::getCameraImage()
     
     //memcpy( bkgnd, iplbkgnd->imageData, sizeof(bkgnd) );
     
-    // isight issue
+
+    
     for ( int i=0, j=0; i < m_grab->imageSize && j < sizeof(bkgnd); i += m_grab->widthStep, j += CAM_WIDTH * 3 )
     {
         memcpy( bkgnd+j, m_grab->imageData+i, CAM_WIDTH * 3);    

@@ -237,7 +237,7 @@ void Graphics::display()
     glTranslatef(-15,-15,0);
     
 
-    ry+=0.02;
+    ry+=0.2;
 
    
 
