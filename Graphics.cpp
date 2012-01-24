@@ -32,7 +32,7 @@ void Graphics::resize( int width, int height)
 
 void Graphics::idle() 
 {
-    m_videoManager->capture();
+    //m_videoManager->capture();
 }
 
 void Graphics::buildBlock( bool bottom = 1, bool top = 1, bool front = 1, bool back = 1, bool right = 1, bool left = 1 )
@@ -216,6 +216,7 @@ void Graphics::display()
     gluOrtho2D( 0.0, CAM_WIDTH, 0.0, CAM_HEIGHT );
     
     glRasterPos2i( 0, CAM_HEIGHT-1 );
+    m_videoManager->capture();
     glDrawPixels( CAM_WIDTH, CAM_HEIGHT, GL_BGR_EXT, GL_UNSIGNED_BYTE, m_videoManager->getCameraImage() );
     
     glPopMatrix();

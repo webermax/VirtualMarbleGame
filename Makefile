@@ -5,19 +5,19 @@ build:	Game.o Graphics.o Labyrinth.o Marble.o VideoManager.o
 	g++ ${LINKYLIBS} ${CXXFLAGS} -o bin/Game Graphics.o Game.o Marble.o Labyrinth.o VideoManager.o
 
 Game.o:	
-	g++ ${LINKYLIBS} -c Game.cpp
+	g++ ${CXXFLAGS} -c Game.cpp
 
 Graphics.o:	
-	g++ ${LINKYLIBS} -c Graphics.cpp
+	g++ ${CXXFLAGS} -c Graphics.cpp
 
 Labyrinth.o:	
-	g++ ${LINKYLIBS} -c Labyrinth.cpp
+	g++ ${CXXFLAGS} -c Labyrinth.cpp
 
 Marble.o:	
-	g++ ${LINKYLIBS} -c Marble.cpp
+	g++ ${CXXFLAGS} -c Marble.cpp
 
 VideoManager.o:	
-	g++ ${LINKYLIBS} -c VideoManager.cpp
+	g++ ${CXXFLAGS} -c VideoManager.cpp
 
 clean:	
 	rm *.o bin/*
