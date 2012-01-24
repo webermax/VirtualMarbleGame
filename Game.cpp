@@ -28,6 +28,7 @@ static void timer(int value);
 void hitkey( unsigned char key, int x, int y );
 
 int windowId;
+int t = 30;
 
 void hitkey( unsigned char key, int x, int y )
 {
@@ -51,13 +52,16 @@ void resize(int w, int h)
     g->resize(w,h);
 }
 
-double i = 0.0;
-
 void idle()
 {
     g->idle();
 }
 
+double yStart = 5.0;
+double speed = 0.0;
+double y = yStart;
+double d = t / 1000.0;
+float a = -9.81;
 static void timer(int value)
 {
     /* Do timer processing */
@@ -65,14 +69,22 @@ static void timer(int value)
     
     //TODO:
     //PHYSICS
-    i += 0.05;
-    i = fmod(i, M_PI);
-    m->setY(abs(sin(i)));
+//    x += 0.1;
+//    x = fmod(x, M_PI);
+//    m->setY(3 * abs(sin(x)));
+    
+    speed += a * d;
+
+    y += speed * d;
+    
+    if ( y < 0 && speed <0 ) speed *= -1;
+    
+    m->setY(y);
     
     glutPostRedisplay();
     
     /* call back again after elapsedUSecs have passed */
-    glutTimerFunc (10, timer, value);
+    glutTimerFunc (t, timer, value);
 }
 
 int main(int argc, char* argv[])
@@ -93,7 +105,7 @@ int main(int argc, char* argv[])
     glutReshapeFunc( resize  );
     glutIdleFunc( idle );
     glutKeyboardFunc( hitkey );
-    glutTimerFunc(10, timer, 1);
+    glutTimerFunc(t, timer, 1);
     
     // start the action
     glutMainLoop();
