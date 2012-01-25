@@ -12,3 +12,6 @@
 # Compiled binaries
 bin
 
+# exuberant ctags
+tags
+
