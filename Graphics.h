@@ -25,12 +25,13 @@ class Board;
 class Marble;
 class Labyrinth;
 class VideoManager;
+class Pose;
 
 class Graphics {
     
 public:
     
-    Graphics(Marble*, Labyrinth*, VideoManager*);  
+    Graphics(Marble*, Labyrinth*, VideoManager*, Pose*);  
     
     void display();
  
@@ -54,6 +55,8 @@ private:
     
     VideoManager* m_videoManager;
    
+    Pose* m_pose;
+    
     void buildBlock( bool, bool, bool, bool, bool, bool );
     
     GLuint LoadTGATexture( const char * filename);

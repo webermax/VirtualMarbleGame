@@ -168,16 +168,19 @@ GLuint Graphics::LoadTGATexture( const char * filename)
     return texture;		
 }
 
-Graphics::Graphics(Marble* marble, Labyrinth* labyrinth, VideoManager* videoManager)
+Graphics::Graphics(Marble* marble, Labyrinth* labyrinth, VideoManager* videoManager, Pose* pose)
 {
     m_marble = marble;
     m_labyrinth = labyrinth;
     m_videoManager = videoManager;
+    m_pose =pose;
 }
 
 
 void Graphics::renderBoard()
 {
+    glTranslatef(-Labyrinth_size/2,-Labyrinth_size/2,0);
+    
     for(int x=0;x<Labyrinth_size;x++)
     for(int y=0;y<Labyrinth_size;y++)  
     {
@@ -191,6 +194,9 @@ void Graphics::renderBoard()
 
        }
     }
+    
+    glTranslatef(Labyrinth_size/2,Labyrinth_size/2,0);
+    
 }
 
 void Graphics::renderMarble()
@@ -232,28 +238,42 @@ void Graphics::display()
 
     glDisable(GL_TEXTURE_GEN_S); 
     glDisable(GL_TEXTURE_GEN_T); 
-
+  
+    
+    /*
+    //// Der Code dreht das Labyrinth in der Mitte des Bildschirms://
+     
 	glTranslatef(0,-5,-40);
     glRotatef(90,1,0,0);
     
     glRotatef(ry,0,0,1);
-    glTranslatef(-Labyrinth_size/2,-Labyrinth_size/2,0);
     
 
     ry+=0.2;
+     /////////////////////////////////////////////////////////////////
+   */
+    
+    
 
-   
+    
+	
+	glLoadTransposeMatrixf( m_pose->matrix );
+
+	glScalef(0.0015, 0.0015, 0.0015);
+    
+    
 
 
     renderBoard();
+    
+    
     
     
     glEnable(GL_TEXTURE_GEN_S); 
     glEnable(GL_TEXTURE_GEN_T); 
     
     
-    glLoadIdentity();
-    
+
     renderMarble();
     
     glFlush();

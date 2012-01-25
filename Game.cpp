@@ -108,7 +108,7 @@ int main(int argc, char* argv[])
     trackingManager = new TrackingManager(videoManager, pose);
     marble = new Marble(0, 0, -20, 1, 1);
     labyrinth = new Labyrinth();
-    graphics = new Graphics(marble, labyrinth, videoManager);
+    graphics = new Graphics(marble, labyrinth, videoManager,pose);
     
     glutInit( &argc,  argv);
     
