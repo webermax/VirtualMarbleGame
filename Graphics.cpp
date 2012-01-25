@@ -25,7 +25,8 @@ void Graphics::resize( int width, int height)
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective( 45, ((double)width/(double)height), 0.01, 100 );
+    
+    gluPerspective( CAM_ANGLE, ((double)width/(double)height), 0.01, 100 );
 
     glutPostRedisplay();
 }
@@ -217,7 +218,7 @@ void Graphics::display()
     
     glRasterPos2i( 0, CAM_HEIGHT-1 );
     m_videoManager->capture();
-    glDrawPixels( CAM_WIDTH, CAM_HEIGHT, GL_BGR_EXT, GL_UNSIGNED_BYTE, m_videoManager->getCameraImage() );
+    glDrawPixels( CAM_WIDTH, CAM_HEIGHT, GL_BGR_EXT, GL_UNSIGNED_BYTE, m_videoManager->getImage() );
     
     glPopMatrix();
     
@@ -304,6 +305,7 @@ int Graphics::init()
     
     buildBlock();
     
+    // TODO: add .tga file to repository
     textur1=  LoadTGATexture( "/Users/Mathias/Desktop/brickwall1.tga");
     
     glEnable(GL_TEXTURE_2D);

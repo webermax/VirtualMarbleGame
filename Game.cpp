@@ -13,13 +13,16 @@
 #include "Marble.h"
 #include "Labyrinth.h"
 #include "VideoManager.h"
+#include "Pose.h"
 
 using namespace std;
 
-Marble *m;
-Graphics *g;
-Labyrinth *l;
-VideoManager *v;
+Marble* marble;
+Graphics* graphics;
+Labyrinth* labyrinth;
+VideoManager* videoManager;
+TrackingManager* trackingManager;
+Pose* pose;
 
 void display();
 void resize( int, int );
@@ -44,17 +47,17 @@ void hitkey( unsigned char key, int x, int y )
     
 void display()
 {    
-    g->display();
+    graphics->display();
 }
 
 void resize(int w, int h)
 {
-    g->resize(w,h);
+    graphics->resize(w,h);
 }
 
 void idle()
 {
-    g->idle();
+    graphics->idle();
 }
 
 double yStart = 5.0;
@@ -62,7 +65,7 @@ double speed = 0.0;
 double y = yStart;
 double d = t / 1000.0;
 float a = -9.81;
-static void timer(int value)
+static void ballTimer(int value)
 {
     /* Do timer processing */
     /* maybe glutPostRedisplay(), if necessary */
@@ -79,11 +82,20 @@ static void timer(int value)
     
     if ( y < 0 && speed <0 ) speed *= -1;
     
-    m->setY(y);
+    marble->setY(y);
     
     glutPostRedisplay();
     
     /* call back again after elapsedUSecs have passed */
+    glutTimerFunc (t, ballTimer, value);
+}
+
+static void timer(int value)
+{
+    trackingManager->process();
+    
+    glutPostRedisplay();
+    
     glutTimerFunc (t, timer, value);
 }
 
@@ -91,14 +103,16 @@ int main(int argc, char* argv[])
 {
     cout << "Startup\n";
     
-    v = new VideoManager();
-    m = new Marble(0, 0, -20, 1, 1);
-    l = new Labyrinth();
-    g = new Graphics(m, l, v);
+    videoManager = new VideoManager();
+    pose = new Pose();
+    trackingManager = new TrackingManager(videoManager, pose);
+    marble = new Marble(0, 0, -20, 1, 1);
+    labyrinth = new Labyrinth();
+    graphics = new Graphics(marble, labyrinth, videoManager);
     
     glutInit( &argc,  argv);
     
-    windowId = g->init();
+    windowId = graphics->init();
     
     // make functions known to GLUT
     glutDisplayFunc( display );

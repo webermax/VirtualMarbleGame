@@ -41,16 +41,14 @@ void VideoManager::capture() {
     // Mirrorfeeling
      cvFlip(m_grab, NULL, 1);
     
-    m_picSize = cvGetSize(m_grab);
+    picSize = cvGetSize(m_grab);
 }
 
-unsigned char *VideoManager::getCameraImage()
+unsigned char* VideoManager::getImage()
 {
     //static unsigned char bkgnd[CAM_WIDTH * CAM_HEIGHT * 3];
     
     //memcpy( bkgnd, iplbkgnd->imageData, sizeof(bkgnd) );
-    
-
     
     for ( int i=0, j=0; i < m_grab->imageSize && j < sizeof(bkgnd); i += m_grab->widthStep, j += CAM_WIDTH * 3 )
     {
@@ -58,4 +56,9 @@ unsigned char *VideoManager::getCameraImage()
     }
     
     return bkgnd;
+}
+
+IplImage* VideoManager::getIplImage()
+{
+    return m_grab;
 }

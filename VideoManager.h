@@ -10,7 +10,6 @@
 
 #define CAM_WIDTH 640
 #define CAM_HEIGHT 480
-#define CAM_ANGLE 35
 
 #include <iostream>
 #include <iomanip>
@@ -26,19 +25,19 @@ public:
     
     void initVideoStream();
     
-    unsigned char *getCameraImage();
+    unsigned char *getImage();
     
     void capture();
     
-    IplImage* getThresholdImage();
+    IplImage* getIplImage();
+    
+    CvSize picSize;
     
 private:
     
     CvCapture* m_cap;
     
     IplImage* m_grab;
-    
-    CvSize m_picSize;
     
     unsigned char bkgnd[CAM_WIDTH * CAM_HEIGHT * 3];
     
