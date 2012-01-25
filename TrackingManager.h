@@ -9,7 +9,7 @@
 #define VirtualMarbleGame_Tracking_h
 
 // Apple iSight: 54.3
-#define CAM_ANGLE 54
+#define CAM_ANGLE 54.3
 
 #ifdef __linux
 #include <GL/gl.h>

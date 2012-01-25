@@ -6,20 +6,50 @@
 //
 
 #include <iostream>
+#include <fstream>
 
 #include "Labyrinth.h"
+
+using namespace std;
+
 
 Labyrinth::Labyrinth() 
 {
   
+   ///Random Dataset 
     for(int x=0;x<30;x++)
     {
         for(int y=0;y<30;y++)     
         {
-            m_map[x][y]=rand()%3;
+            m_map[x+y*Labyrinth_size]=rand()%3;
             
         }
     }
+   ///////////////// 
+    
+    
+    cout<<"Loading Labyrinth... "<<endl;
+	
+    
+    /////PFAD ANPASSEN
+    
+   // ifstream file ("/Users/Mathias/Desktop/map.raw", ios::in|ios::binary);
+     ifstream file ("map.raw", ios::in|ios::binary);
+    
+	if (file.is_open())
+	{
+        
+		file.read (reinterpret_cast<char *>( m_map), (sizeof(char)*Labyrinth_size*Labyrinth_size));
+
+		
+		file.close();
+		
+		
+	}
+	else cout << "Unable to open file"<<endl;
+    
+    
+    
     
 }
 
@@ -29,8 +59,22 @@ bool Labyrinth::getMap() {
     
 }
 
-bool Labyrinth::hasBlock( int x, int y ) {
+
+char Labyrinth::getBlock( int x, int y )
+{
     
-    return m_map[x][y];
+    return m_map[x+Labyrinth_size*y];
+    
+}
+
+
+bool Labyrinth::hasBlock( int x, int y ) 
+{
+  
+    if(getBlock(x,y)==0)
+       
+        return false;
+    else
+        return true;
     
 }

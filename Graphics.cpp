@@ -184,7 +184,7 @@ void Graphics::renderBoard()
     for(int x=0;x<Labyrinth_size;x++)
     for(int y=0;y<Labyrinth_size;y++)  
     {
-       if(m_labyrinth->hasBlock(x,y)==1)
+        if(m_labyrinth->hasBlock(x,y)==true)
        {
            glTranslatef(x,y,0);
           
@@ -326,7 +326,7 @@ int Graphics::init()
     buildBlock();
     
     // TODO: add .tga file to repository
-    textur1=  LoadTGATexture( "/Users/Mathias/Desktop/brickwall1.tga");
+    textur1=  LoadTGATexture( "/Users/Mathias/Desktop/brickwall.tga");
     
     glEnable(GL_TEXTURE_2D);
     

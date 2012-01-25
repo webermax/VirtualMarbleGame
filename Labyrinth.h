@@ -24,9 +24,11 @@ public:
     
     bool hasBlock( int, int );
     
+     char getBlock( int, int );
+    
 private:
     
-    bool m_map[Labyrinth_size][Labyrinth_size];
+    char m_map[Labyrinth_size*Labyrinth_size];
     
 };
 
