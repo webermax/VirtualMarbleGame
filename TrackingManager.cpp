@@ -63,10 +63,10 @@ void TrackingManager::init()
     
 	int value = thresh;
 	int max = 255;
-	cvCreateTrackbar( "Threshold", "Threshold", &value, max, trackbarHandler);
+	//cvCreateTrackbar( "Threshold", "Threshold", &value, max, trackbarHandler);
     
 	int bw_value = bw_thresh;
-	cvCreateTrackbar( "BW Threshold", "Threshold", &bw_value, max, bw_trackbarHandler);
+	//cvCreateTrackbar( "BW Threshold", "Threshold", &bw_value, max, bw_trackbarHandler);
     
 	memStorage = cvCreateMemStorage();
 }
@@ -83,8 +83,8 @@ void TrackingManager::process()
 	IplImage* iplThreshold = cvCreateImage(m_videoManager->picSize, IPL_DEPTH_8U, 1);
     
 	cvConvertImage(iplGrabbed, iplConverted, 0);
-	cvThreshold(iplConverted, iplThreshold, thresh, 255, CV_THRESH_BINARY);
-	//cvAdaptiveThreshold(iplConverted, iplThreshold, 255, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, 33, 5);
+	//cvThreshold(iplConverted, iplThreshold, thresh, 255, CV_THRESH_BINARY);
+	cvAdaptiveThreshold(iplConverted, iplThreshold, 255, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, 33, 5);
     
 	// Find Contours
 	CvSeq* contours;
