@@ -326,7 +326,7 @@ int Graphics::init()
     buildBlock();
     
     // TODO: add .tga file to repository
-    textur1=  LoadTGATexture( "/Users/Mathias/Desktop/brickwall.tga");
+    textur1=  LoadTGATexture( "brickwall.tga");
     
     glEnable(GL_TEXTURE_2D);
     
