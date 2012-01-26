@@ -102,12 +102,14 @@ static void timer(int value)
 
 int main(int argc, char* argv[])
 {
-    cout << "Starting up with the following arguments:\n";
+    cout << "Starting:\n";
     
-    for (int i=0; i<argc; i++) {
-        printf("%s\n", argv[i]);
-        if(*argv[i] == true) debug = true;
+    if(*argv[1] == '1') {
+        debug = true;
+        cout << "Debug mode.\n";
     }
+    
+    glutInit( &argc,  argv);
     
     videoManager = new VideoManager();
     pose = new Pose();
@@ -115,8 +117,6 @@ int main(int argc, char* argv[])
     marble = new Marble(0, 0, -20, 1, 1);
     labyrinth = new Labyrinth();
     graphics = new Graphics(marble, labyrinth, videoManager, pose);
-    
-    glutInit( &argc,  argv);
     
     windowId = graphics->init();
     

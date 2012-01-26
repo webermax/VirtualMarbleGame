@@ -53,20 +53,19 @@ int subpixSampleSafe ( const IplImage* pSrc, CvPoint2D32f p )
 void TrackingManager::init()
 {
     //cvNamedWindow ("Captured Image", CV_WINDOW_AUTOSIZE);
-    cvNamedWindow ("Threshold", CV_WINDOW_AUTOSIZE);
+    
+    int value = thresh;
+    int max = 255;
+    int bw_value = bw_thresh;
     
     if(m_debug) {
+        cvNamedWindow ("Threshold", CV_WINDOW_AUTOSIZE);
         cvNamedWindow ("Stripe", CV_WINDOW_AUTOSIZE);
         cvNamedWindow ("Marker", 0 );
         cvResizeWindow("Marker", 120, 120 );
+        cvCreateTrackbar( "Threshold", "Threshold", &value, max, trackbarHandler);
+        cvCreateTrackbar( "BW Threshold", "Threshold", &bw_value, max, bw_trackbarHandler);
     }
-    
-	int value = thresh;
-	int max = 255;
-	//cvCreateTrackbar( "Threshold", "Threshold", &value, max, trackbarHandler);
-    
-	int bw_value = bw_thresh;
-	//cvCreateTrackbar( "BW Threshold", "Threshold", &bw_value, max, bw_trackbarHandler);
     
 	memStorage = cvCreateMemStorage();
 }
@@ -83,8 +82,12 @@ void TrackingManager::process()
 	IplImage* iplThreshold = cvCreateImage(m_videoManager->picSize, IPL_DEPTH_8U, 1);
     
 	cvConvertImage(iplGrabbed, iplConverted, 0);
-	//cvThreshold(iplConverted, iplThreshold, thresh, 255, CV_THRESH_BINARY);
-	cvAdaptiveThreshold(iplConverted, iplThreshold, 255, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, 33, 5);
+	
+    if(m_debug) {
+        cvThreshold(iplConverted, iplThreshold, thresh, 255, CV_THRESH_BINARY);
+    } else {
+        cvAdaptiveThreshold(iplConverted, iplThreshold, 255, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, 33, 5);
+    }
     
 	// Find Contours
 	CvSeq* contours;
@@ -312,7 +315,7 @@ void TrackingManager::process()
                 
 				if ( fabs(c) < 0.001 ) //lines parallel?
 				{
-					std::cout << "lines parallel" << std::endl;
+                    if(m_debug) std::cout << "lines parallel" << std::endl;
 					continue;
 				}
                 
@@ -424,7 +427,7 @@ void TrackingManager::process()
 				for(int i = 0; i < 4; i++)	corners[i] = corrected_corners[i];
 			}
             
-			printf ("Found: %04x\n", code);
+            if(m_debug) printf ("Found: %04x\n", code);
             
 			if ( isFirstMarker )
 			{
@@ -442,21 +445,28 @@ void TrackingManager::process()
 			}
 			
 			estimateSquarePose( m_pose->matrix, corners, 0.045 );
-			for (int i = 0; i<4; ++i) {
-				for (int j = 0; j<4; ++j) {
-					cout << setw(6);
-					cout << setprecision(4);
-					cout << m_pose->matrix[4*i+j] << " ";
-				}
-				cout << "\n";
-			}
-			cout << "\n";
+            
+            if(m_debug) {
+                for (int i = 0; i<4; ++i) {
+                    for (int j = 0; j<4; ++j) {
+                        cout << setw(6);
+                        cout << setprecision(4);
+                        cout << m_pose->matrix[4*i+j] << " ";
+                    }
+                    cout << "\n";
+                }
+                cout << "\n";
+            }
+            
 			float x,y,z;
 			x = m_pose->matrix[3];
 			y = m_pose->matrix[7];
 			z = m_pose->matrix[11];
-			cout << "length: " << sqrt(x*x+y*y+z*z) << "\n";
-			cout << "\n";
+            
+            if(m_debug) {
+                cout << "length: " << sqrt(x*x+y*y+z*z) << "\n";
+                cout << "\n";
+            }
             
 			cvReleaseMat (&projMat);
             
@@ -465,9 +475,9 @@ void TrackingManager::process()
 	} // end of loop over contours
     
     if(m_debug) {
-        cvShowImage("Captured Image", iplGrabbed);
+        //cvShowImage("Captured Image", iplGrabbed);
+        cvShowImage("Threshold", iplThreshold);
     }
-    cvShowImage("Threshold", iplThreshold);
     
 	isFirstStripe = true;
     
@@ -483,8 +493,8 @@ TrackingManager::~TrackingManager()
 {
 	cvReleaseMemStorage (&memStorage);
     
-	cvDestroyWindow ("Threshold");
     if(m_debug) {
+        cvDestroyWindow ("Threshold");
         cvDestroyWindow ("Captured Image");
         cvDestroyWindow ("Stripe");
         cvDestroyWindow ("Marker");
