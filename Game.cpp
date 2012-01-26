@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
     labyrinth = new Labyrinth();
     graphics = new Graphics(marble, labyrinth, videoManager, pose);
     
-    //glutInit( &argc,  argv);
+    glutInit( &argc,  argv);
     
     windowId = graphics->init();
     
