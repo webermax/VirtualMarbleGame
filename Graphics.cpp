@@ -259,7 +259,7 @@ void Graphics::display()
 	
 	glLoadTransposeMatrixf( m_pose->matrix );
 
-	glScalef(0.0015, 0.0015, 0.0015);
+	glScalef(0.02, 0.02, 0.02);
     
     
 

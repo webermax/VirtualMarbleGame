@@ -17,9 +17,9 @@ Labyrinth::Labyrinth()
 {
   
    ///Random Dataset 
-    for(int x=0;x<30;x++)
+    for(int x=0;x<Labyrinth_size;x++)
     {
-        for(int y=0;y<30;y++)     
+        for(int y=0;y<Labyrinth_size;y++)     
         {
             m_map[x+y*Labyrinth_size]=rand()%3;
             

@@ -8,7 +8,7 @@
 #ifndef VirtualMarbleGame_Labyrinth_h
 #define VirtualMarbleGame_Labyrinth_h
 
-#define Labyrinth_size 30
+#define Labyrinth_size 10
 
 #ifdef __linux
 	#include <stdlib.h>
