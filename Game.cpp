@@ -32,6 +32,7 @@ void hitkey( unsigned char key, int x, int y );
 
 int windowId;
 int t = 30;
+bool debug = false;
 
 void hitkey( unsigned char key, int x, int y )
 {
@@ -101,14 +102,19 @@ static void timer(int value)
 
 int main(int argc, char* argv[])
 {
-    cout << "Startup\n";
+    cout << "Starting up with the following arguments:\n";
+    
+    for (int i=0; i<argc; i++) {
+        printf("%s\n", argv[i]);
+        if(*argv[i] == true) debug = true;
+    }
     
     videoManager = new VideoManager();
     pose = new Pose();
-    trackingManager = new TrackingManager(videoManager, pose);
+    trackingManager = new TrackingManager(debug, videoManager, pose);
     marble = new Marble(0, 0, -20, 1, 1);
     labyrinth = new Labyrinth();
-    graphics = new Graphics(marble, labyrinth, videoManager,pose);
+    graphics = new Graphics(marble, labyrinth, videoManager, pose);
     
     glutInit( &argc,  argv);
     

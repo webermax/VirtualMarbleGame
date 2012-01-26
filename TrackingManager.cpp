@@ -9,9 +9,10 @@
 
 #include "TrackingManager.h"
 
-TrackingManager::TrackingManager(VideoManager* videoManager, Pose* pose)
+TrackingManager::TrackingManager(bool debug, VideoManager* videoManager, Pose* pose)
 {
     m_pose = pose;
+    m_debug = debug;
     m_videoManager = videoManager;
     init();
 }
@@ -51,18 +52,21 @@ int subpixSampleSafe ( const IplImage* pSrc, CvPoint2D32f p )
 
 void TrackingManager::init()
 {
-    cvNamedWindow ("Exercise 8 - Original Image", CV_WINDOW_AUTOSIZE);
-	cvNamedWindow ("Exercise 8 - Converted Image", CV_WINDOW_AUTOSIZE);
-	cvNamedWindow ("Exercise 8 - Stripe", CV_WINDOW_AUTOSIZE);
-	cvNamedWindow ("Marker", 0 );
-	cvResizeWindow("Marker", 120, 120 );
+    //cvNamedWindow ("Captured Image", CV_WINDOW_AUTOSIZE);
+    cvNamedWindow ("Threshold", CV_WINDOW_AUTOSIZE);
+    
+    if(m_debug) {
+        cvNamedWindow ("Stripe", CV_WINDOW_AUTOSIZE);
+        cvNamedWindow ("Marker", 0 );
+        cvResizeWindow("Marker", 120, 120 );
+    }
     
 	int value = thresh;
 	int max = 255;
-	cvCreateTrackbar( "Threshold", "Exercise 8 - Converted Image", &value, max, trackbarHandler);
+	cvCreateTrackbar( "Threshold", "Threshold", &value, max, trackbarHandler);
     
 	int bw_value = bw_thresh;
-	cvCreateTrackbar( "BW Threshold", "Exercise 8 - Converted Image", &bw_value, max, bw_trackbarHandler);
+	cvCreateTrackbar( "BW Threshold", "Threshold", &bw_value, max, bw_trackbarHandler);
     
 	memStorage = cvCreateMemStorage();
 }
@@ -254,7 +258,9 @@ void TrackingManager::process()
 					{
 						IplImage* iplTmp = cvCreateImage( cvSize(100,300), IPL_DEPTH_8U, 1 );
 						cvResize( iplStripe, iplTmp, CV_INTER_NN );
-						cvShowImage ( "Exercise 8 - Stripe", iplTmp );//iplStripe );
+                        if(m_debug) {
+                            cvShowImage ( "Stripe", iplTmp );//iplStripe );
+                        }
 						cvReleaseImage( &iplTmp );
 						isFirstStripe = false;
 					}
@@ -322,10 +328,6 @@ void TrackingManager::process()
                 
 				cvCircle (iplGrabbed, p, 5, CV_RGB(i*60,i*60,0), -1);
 			} //finished the calculation of the exact corners
-            
-            // Added in Exercise 8 - Start *****************************************************************
-			// resultMatrix made global variable
-            // Added in Exercise 8 - End *****************************************************************
             
 			CvPoint2D32f targetCorners[4];
 			targetCorners[0].x = -0.5; targetCorners[0].y = -0.5;
@@ -426,7 +428,9 @@ void TrackingManager::process()
             
 			if ( isFirstMarker )
 			{
-				cvShowImage ( "Marker", iplMarker );
+                if(m_debug) {
+                    cvShowImage ( "Marker", iplMarker );
+                }
 				isFirstMarker = false;
 			}
             
@@ -460,8 +464,10 @@ void TrackingManager::process()
 		} // end of if(result->total == 4)
 	} // end of loop over contours
     
-	cvShowImage("Exercise 8 - Original Image", iplGrabbed);
-	cvShowImage("Exercise 8 - Converted Image", iplThreshold);
+    if(m_debug) {
+        cvShowImage("Captured Image", iplGrabbed);
+    }
+    cvShowImage("Threshold", iplThreshold);
     
 	isFirstStripe = true;
     
@@ -477,9 +483,11 @@ TrackingManager::~TrackingManager()
 {
 	cvReleaseMemStorage (&memStorage);
     
-	cvDestroyWindow ("Exercise 8 - Original Image");
-	cvDestroyWindow ("Exercise 8 - Converted Image");
-	cvDestroyWindow ("Exercise 8 - Stripe");
-	cvDestroyWindow ("Marker");
+	cvDestroyWindow ("Threshold");
+    if(m_debug) {
+        cvDestroyWindow ("Captured Image");
+        cvDestroyWindow ("Stripe");
+        cvDestroyWindow ("Marker");
+    }
 	cout << "Finished\n";
 }
