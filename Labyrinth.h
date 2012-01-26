@@ -24,7 +24,9 @@ public:
     
     bool hasBlock( int, int );
     
-     char getBlock( int, int );
+    char getBlock( int, int );
+    
+    void createMaze();
     
 private:
     

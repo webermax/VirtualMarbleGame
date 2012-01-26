@@ -42,6 +42,8 @@ void hitkey( unsigned char key, int x, int y )
             glutDestroyWindow ( windowId );
             exit (0);
             break;
+        case 108: // l key
+            labyrinth->createMaze();
     }
     //glutPostRedisplay();
 }
