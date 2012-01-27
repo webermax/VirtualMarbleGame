@@ -19,7 +19,7 @@ class VideoManager {
     
 public:
     
-    VideoManager();
+    VideoManager(int cameraNumber);
     
     ~VideoManager();
     
@@ -41,6 +41,7 @@ private:
     
     unsigned char bkgnd[CAM_WIDTH * CAM_HEIGHT * 3];
     
+    int m_cameraNumber;
 };
 
 #endif

@@ -33,6 +33,7 @@ void hitkey( unsigned char key, int x, int y );
 int windowId;
 int t = 30;
 bool debug = false;
+int cameraNumber = true;
 
 void hitkey( unsigned char key, int x, int y )
 {
@@ -111,9 +112,14 @@ int main(int argc, char* argv[])
         cout << "Debug mode.\n";
     }
     
+    if(*argv[2] != '0') {
+        cameraNumber = atoi(argv[2]);
+        cout << "Using camera: " << argv[2] << ".\n";
+    }
+    
     glutInit( &argc,  argv);
     
-    videoManager = new VideoManager();
+    videoManager = new VideoManager(cameraNumber);
     pose = new Pose();
     trackingManager = new TrackingManager(debug, videoManager, pose);
     marble = new Marble(0, 0, -20, 1, 1);

@@ -15,12 +15,13 @@
 
 using namespace std;
 
-VideoManager::VideoManager() {
+VideoManager::VideoManager(int cameraNumber) {
+    m_cameraNumber = cameraNumber;
     initVideoStream();
 }
 
 void VideoManager::initVideoStream() {
-	m_cap = cvCaptureFromCAM (0);
+	m_cap = cvCaptureFromCAM (m_cameraNumber);
     if (!m_cap) {
         cout << "No webcam found. Exiting.\n";
         exit(0);
