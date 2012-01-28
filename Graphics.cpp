@@ -202,11 +202,15 @@ void Graphics::renderBoard()
 
 void Graphics::renderMarble()
 {
-    glEnable(GL_TEXTURE_GEN_S); 
-    glEnable(GL_TEXTURE_GEN_T);
-    glBindTexture(GL_TEXTURE_2D, m_texture_marble);
+//    glEnable(GL_TEXTURE_GEN_S); 
+//    glEnable(GL_TEXTURE_GEN_T);
+//    glBindTexture(GL_TEXTURE_2D, m_texture_marble);
+    
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glColor3f( 1.0f,0.0f,0.0f);
+    
     glTranslatef( m_marble->getX(), m_marble->getY(), m_marble->getZ() );
-    glutSolidSphere( m_marble->getRadius(), 15, 15 );
+    glutSolidSphere( m_marble->getRadius(), 30, 30 );
 }
 
 void Graphics::display() 
@@ -218,7 +222,7 @@ void Graphics::display()
     glLoadIdentity();
     
     // draw background image
-     glBindTexture(GL_TEXTURE_2D, NULL);
+    glBindTexture(GL_TEXTURE_2D, NULL);
     glDisable( GL_DEPTH_TEST );
     
     glMatrixMode( GL_PROJECTION );
