@@ -65,6 +65,14 @@ private:
     
     void renderMarble();
     
+    GLuint block;
+    
+    GLuint m_texture_labyrinth;
+    
+    GLuint m_texture_marble;
+    
+    double ry;
+    
 };
 
 #endif

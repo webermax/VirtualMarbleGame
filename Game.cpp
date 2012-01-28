@@ -105,14 +105,14 @@ static void timer(int value)
 
 int main(int argc, char* argv[])
 {
-    cout << "Starting:\n";
+    cout << "Starting: " << argv[0] << "\n";
     
-    if(*argv[1] == '1') {
+    if(argc > 1 && *argv[1] == '1') {
         debug = true;
         cout << "Debug mode.\n";
     }
     
-    if(*argv[2] != '0') {
+    if(argc > 2) {
         cameraNumber = atoi(argv[2]);
         cout << "Using camera: " << argv[2] << ".\n";
     }
@@ -122,7 +122,7 @@ int main(int argc, char* argv[])
     videoManager = new VideoManager(cameraNumber);
     pose = new Pose();
     trackingManager = new TrackingManager(debug, videoManager, pose);
-    marble = new Marble(0, 0, -20, 1, 1);
+    marble = new Marble(0, 0, -3, 0.4, 1);
     labyrinth = new Labyrinth();
     graphics = new Graphics(marble, labyrinth, videoManager, pose);
     

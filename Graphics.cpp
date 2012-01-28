@@ -13,11 +13,6 @@
 
 using namespace std;
 
-GLuint block;
-GLuint textur1;
-
-double ry;
-
 void Graphics::resize( int width, int height) 
 {
 
@@ -179,32 +174,39 @@ Graphics::Graphics(Marble* marble, Labyrinth* labyrinth, VideoManager* videoMana
 
 void Graphics::renderBoard()
 {
+    glDisable(GL_TEXTURE_GEN_S); 
+    glDisable(GL_TEXTURE_GEN_T); 
+	
+	glLoadTransposeMatrixf( m_pose->matrix );
+    
+    glBindTexture(GL_TEXTURE_2D, m_texture_labyrinth);
     
     glScalef(0.02, 0.02, 0.02);
     glTranslatef(-Labyrinth_size/2,-Labyrinth_size/2,0);
     
     for(int x=0;x<Labyrinth_size;x++)
-    for(int y=0;y<Labyrinth_size;y++)  
     {
-        if(m_labyrinth->hasBlock(x,y)==true)
-       {
-           glTranslatef(x,y,0);
-          
-           glCallList(block);
-           
-           glTranslatef(-x,-y,0);
-
-       }
+        for(int y=0;y<Labyrinth_size;y++)  
+        {
+            if(m_labyrinth->hasBlock(x,y)==true)
+            {
+                glTranslatef(x,y,0);
+                glCallList(block);
+                glTranslatef(-x,-y,0);
+            }
+        }
     }
-    
+
     glTranslatef(Labyrinth_size/2,Labyrinth_size/2,0);
-    
 }
 
 void Graphics::renderMarble()
 {
+    glEnable(GL_TEXTURE_GEN_S); 
+    glEnable(GL_TEXTURE_GEN_T);
+    glBindTexture(GL_TEXTURE_2D, m_texture_marble);
     glTranslatef( m_marble->getX(), m_marble->getY(), m_marble->getZ() );
-    glutSolidSphere( m_marble->getRadius(), 30, 30 );
+    glutSolidSphere( m_marble->getRadius(), 15, 15 );
 }
 
 void Graphics::display() 
@@ -236,23 +238,16 @@ void Graphics::display()
     glMatrixMode( GL_MODELVIEW );
 
     glColor4f(1,1,1,1);
-    glBindTexture(GL_TEXTURE_2D, textur1);
-
-    glDisable(GL_TEXTURE_GEN_S); 
-    glDisable(GL_TEXTURE_GEN_T); 
-	
-	glLoadTransposeMatrixf( m_pose->matrix );
     
+    // render game board with labyrinth
     renderBoard();
-    
-    glEnable(GL_TEXTURE_GEN_S); 
-    glEnable(GL_TEXTURE_GEN_T); 
 
+    // render marble
     renderMarble();
     
     glFlush();
     glutSwapBuffers();
-   // glutPostRedisplay();
+    // glutPostRedisplay();
 
 }
 
@@ -299,8 +294,8 @@ int Graphics::init()
     
     buildBlock();
     
-    // TODO: add .tga file to repository
-    textur1=  LoadTGATexture( "brickwall.tga");
+    m_texture_labyrinth = LoadTGATexture( "labyrinth.tga");
+    m_texture_marble = LoadTGATexture( "marble.tga");
     
     glEnable(GL_TEXTURE_2D);
     
