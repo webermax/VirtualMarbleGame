@@ -2,16 +2,17 @@
 //  Physics.h
 //  VirtualMarbleGame
 //
-//  Created by Maximilian Weber on 14/01/2012.
+//  Created by Maximilian Weber
 //
 
 #ifndef VirtualMarbleGame_Physics_h
 #define VirtualMarbleGame_Physics_h
 
-#include "Board.h"
+#include "Labyrinth.h"
 #include "Marble.h"
+#include "Pose.h"
 
-class Board;
+class Labyrinth;
 class Marble;
 class Pose;
 
@@ -19,13 +20,19 @@ class Physics {
 
 public:
     
-    Pose* getMarblePose();
+    Physics(Labyrinth*, Marble*, Pose*);
+    
+    ~Physics();
+    
+    void process();
     
 private:
     
-    Board* board;
+    Labyrinth* m_labyrinth;
     
-    Marble* marble;
+    Marble* m_marble;
+    
+    Pose* m_pose;
     
 };
 

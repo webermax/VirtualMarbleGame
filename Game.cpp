@@ -14,6 +14,7 @@
 #include "Labyrinth.h"
 #include "VideoManager.h"
 #include "Pose.h"
+#include "Physics.h"
 
 using namespace std;
 
@@ -23,11 +24,14 @@ Labyrinth* labyrinth;
 VideoManager* videoManager;
 TrackingManager* trackingManager;
 Pose* pose;
+Physics* physics;
 
 void display();
 void resize( int, int );
 void idle();
-static void timer(int value);
+static void trackingTimer(int value);
+static void ballTimer(int value);
+static void physicsTimer(int value);
 void hitkey( unsigned char key, int x, int y );
 
 int windowId;
@@ -94,13 +98,18 @@ static void ballTimer(int value)
     glutTimerFunc (t, ballTimer, value);
 }
 
-static void timer(int value)
+static void trackingTimer(int value)
 {
     trackingManager->process();
     
     glutPostRedisplay();
     
-    glutTimerFunc (t, timer, value);
+    glutTimerFunc (t, trackingTimer, value);
+}
+
+static void physicsTimer(int value)
+{
+    glutTimerFunc (t, physicsTimer, value);
 }
 
 int main(int argc, char* argv[])
@@ -125,6 +134,7 @@ int main(int argc, char* argv[])
     marble = new Marble(0, 0, -3, 0.4, 1);
     labyrinth = new Labyrinth();
     graphics = new Graphics(marble, labyrinth, videoManager, pose);
+    physics = new Physics(labyrinth, marble, pose);
     
     windowId = graphics->init();
     
@@ -133,7 +143,7 @@ int main(int argc, char* argv[])
     glutReshapeFunc( resize  );
     glutIdleFunc( idle );
     glutKeyboardFunc( hitkey );
-    glutTimerFunc(t, timer, 1);
+    glutTimerFunc(t, trackingTimer, 1);
     
     // start the action
     glutMainLoop();
