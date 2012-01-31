@@ -177,10 +177,11 @@ void Graphics::renderBoard()
     glDisable(GL_TEXTURE_GEN_S); 
     glDisable(GL_TEXTURE_GEN_T); 
 	
-	glLoadTransposeMatrixf( m_pose->matrix );
+	
     
     glBindTexture(GL_TEXTURE_2D, m_texture_labyrinth);
     
+    glPushMatrix();
     glScalef(0.02, 0.02, 0.02);
     glTranslatef(-Labyrinth_size/2,-Labyrinth_size/2,0);
     
@@ -198,6 +199,7 @@ void Graphics::renderBoard()
     }
 
     glTranslatef(Labyrinth_size/2,Labyrinth_size/2,0);
+    glPopMatrix();
 }
 
 void Graphics::renderMarble()
@@ -209,8 +211,45 @@ void Graphics::renderMarble()
     glBindTexture(GL_TEXTURE_2D, 0);
     glColor3f( 1.0f,0.0f,0.0f);
     
+    glPushMatrix();
+    
+    glScalef(0.02, 0.02, 0.02);
     glTranslatef( m_marble->getX(), m_marble->getY(), m_marble->getZ() );
+    
     glutSolidSphere( m_marble->getRadius(), 30, 30 );
+    
+    // calculate components of gravity vector
+    // assuming g = ( x = 0, y = -9.81, z = 0 ) in camera coordinates
+    float x = -m_pose->matrix[4] * 9.81;
+    float y = -m_pose->matrix[5] * 9.81;
+    float z = -m_pose->matrix[6] * 9.81;
+    
+    //printf("(x: %f, y: %f, z: %f)\n", x ,y ,z);
+    
+    // draw gravity vector components
+    glBegin(GL_LINES);
+    glLineWidth(100);
+    
+    glColor3f(1,0,0); // red
+    glVertex3f(0,0,0);
+    glVertex3f(x,0,0);
+    
+    glColor3f(0,1,0); // green
+    glVertex3f(0,0,0);
+    glVertex3f(0,y,0);
+    
+    glColor3f(0,0,1); // blue
+    glVertex3f(0,0,0);
+    glVertex3f(0,0,z);
+    
+    glColor3f(1,1,0); // yellow
+    glVertex3f(0,0,0);
+    glVertex3f(x,y,z);
+    
+    glEnd();
+    
+    glPopMatrix();
+    
 }
 
 void Graphics::display() 
@@ -243,7 +282,9 @@ void Graphics::display()
 
     glColor4f(1,1,1,1);
     
-    // render game board with labyrinth
+    glLoadTransposeMatrixf( m_pose->matrix );
+    
+    // render game board with labyrinth and maze
     renderBoard();
 
     // render marble
