@@ -52,6 +52,14 @@ void hitkey( unsigned char key, int x, int y )
     }
     //glutPostRedisplay();
 }
+
+
+void mouse(int button, int state, int x, int y) 
+{
+  
+
+}
+
     
 void display()
 {    
@@ -116,12 +124,14 @@ int main(int argc, char* argv[])
 {
     cout << "Starting: " << argv[0] << "\n";
     
-    if(argc > 1 && *argv[1] == '1') {
+    if(argc > 1 && *argv[1] == '1') 
+    {
         debug = true;
         cout << "Debug mode.\n";
     }
     
-    if(argc > 2) {
+   if(argc > 2) 
+    {
         cameraNumber = atoi(argv[2]);
         cout << "Using camera: " << argv[2] << ".\n";
     }
@@ -144,6 +154,7 @@ int main(int argc, char* argv[])
     glutIdleFunc( idle );
     glutKeyboardFunc( hitkey );
     glutTimerFunc(t, trackingTimer, 1);
+    glutMouseFunc(mouse);
     
     // start the action
     glutMainLoop();
