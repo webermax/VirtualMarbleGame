@@ -49,6 +49,11 @@ void hitkey( unsigned char key, int x, int y )
             break;
         case 108: // l key
             labyrinth->createMaze();
+            break;
+        case 'n': // l key
+           marble->m_x=0;
+              marble->m_y=0;
+            break;
     }
     //glutPostRedisplay();
 }
@@ -117,6 +122,9 @@ static void trackingTimer(int value)
 
 static void physicsTimer(int value)
 {
+    
+    physics -> process();
+    
     glutTimerFunc (t, physicsTimer, value);
 }
 
@@ -126,7 +134,7 @@ int main(int argc, char* argv[])
     
     if(argc > 1 && *argv[1] == '1') 
     {
-        debug = true;
+        debug =true;
         cout << "Debug mode.\n";
     }
     
@@ -154,6 +162,8 @@ int main(int argc, char* argv[])
     glutIdleFunc( idle );
     glutKeyboardFunc( hitkey );
     glutTimerFunc(t, trackingTimer, 1);
+    glutTimerFunc(t, physicsTimer, 1);
+
     glutMouseFunc(mouse);
     
     // start the action

@@ -17,18 +17,23 @@ TrackingManager::TrackingManager(bool debug, VideoManager* videoManager, Pose* p
     init();
 }
 
-int thresh = 100;
+int thresh = 100;//100;
 
-int bw_thresh = 40;
+int bw_thresh = 100;//40;
 
 CvMemStorage* memStorage;
 
-void trackbarHandler(int pos) {
+void trackbarHandler(int pos)
+{
+
 	thresh = pos;
 }
 
-void bw_trackbarHandler(int pos) {
+void bw_trackbarHandler(int pos) 
+{
+    
 	bw_thresh = pos;
+
 }
 
 int subpixSampleSafe ( const IplImage* pSrc, CvPoint2D32f p )

@@ -40,13 +40,28 @@ public:
     
     void translateZ(float z);
     
-private:
+public:
     
     float m_x;
     
     float m_y;
     
     float m_z;
+    
+    
+    float s_x;
+    
+    float s_y;
+    
+    float s_z;
+ 
+    
+    float v_x;
+    
+    float v_y;
+    
+    float v_z;
+    
     
     float m_weight;
     

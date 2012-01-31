@@ -57,6 +57,8 @@ private:
    
     Pose* m_pose;
     
+    void drawVector();
+    
     void buildBlock( bool, bool, bool, bool, bool, bool );
     
     GLuint LoadTGATexture( const char * filename);

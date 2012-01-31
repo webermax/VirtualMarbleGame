@@ -177,12 +177,10 @@ void Graphics::renderBoard()
     glDisable(GL_TEXTURE_GEN_S); 
     glDisable(GL_TEXTURE_GEN_T); 
 	
-	glLoadTransposeMatrixf( m_pose->matrix );
+	  glBindTexture(GL_TEXTURE_2D, m_texture_labyrinth);
     
-    glBindTexture(GL_TEXTURE_2D, m_texture_labyrinth);
-    
-    glScalef(0.02, 0.02, 0.02);
-    glTranslatef(-Labyrinth_size/2,-Labyrinth_size/2,0);
+    glScalef(0.01, 0.01, 0.01);
+    glTranslatef(-Labyrinth_size/2,-Labyrinth_size/2,-1);
     
     for(int x=0;x<Labyrinth_size;x++)
     {
@@ -197,7 +195,7 @@ void Graphics::renderBoard()
         }
     }
 
-    glTranslatef(Labyrinth_size/2,Labyrinth_size/2,0);
+    glTranslatef(Labyrinth_size/2,Labyrinth_size/2,1);
 }
 
 void Graphics::renderMarble()
@@ -209,9 +207,44 @@ void Graphics::renderMarble()
     glBindTexture(GL_TEXTURE_2D, 0);
     glColor3f( 1.0f,0.0f,0.0f);
     
+      glTranslatef(-Labyrinth_size/2,-Labyrinth_size/2,0);
+    
     glTranslatef( m_marble->getX(), m_marble->getY(), m_marble->getZ() );
     glutSolidSphere( m_marble->getRadius(), 30, 30 );
 }
+
+void Graphics::drawVector()
+{
+    
+    
+    glLoadIdentity();
+    
+    float x=  m_pose->matrix[0+0]+  m_pose->matrix[0+1]+  m_pose->matrix[0+2];
+    float y=  m_pose->matrix[4+0]+  m_pose->matrix[4+1]+  m_pose->matrix[4+2];
+    float z=  m_pose->matrix[4+4+0]+  m_pose->matrix[4+4+1]+  m_pose->matrix[4+4+2];
+
+    
+    
+    glTranslated(0,0,-7);
+  //  glRotatef(45,1,1,0);
+    
+    
+    
+    glBegin(GL_TRIANGLES);
+    glColor3f(x,y,z);
+    glVertex3f(-1,0,0);
+    glVertex3f(1,0,0);
+    
+
+    
+    
+    glVertex3f(x,y,z);
+    glEnd();
+    
+       
+}
+
+
 
 void Graphics::display() 
 {
@@ -220,13 +253,14 @@ void Graphics::display()
     glMatrixMode(GL_MODELVIEW);
     
     glLoadIdentity();
-    
+   
     // draw background image
     glBindTexture(GL_TEXTURE_2D, NULL);
     glDisable( GL_DEPTH_TEST );
     
     glMatrixMode( GL_PROJECTION );
-    glPushMatrix();
+     glPushMatrix();
+
     glLoadIdentity();
     gluOrtho2D( 0.0, CAM_WIDTH, 0.0, CAM_HEIGHT );
     
@@ -234,14 +268,24 @@ void Graphics::display()
     m_videoManager->capture();
     glDrawPixels( CAM_WIDTH, CAM_HEIGHT, GL_BGR_EXT, GL_UNSIGNED_BYTE, m_videoManager->getImage() );
     
-    glPopMatrix();
+     glPopMatrix();
     
     glEnable(GL_DEPTH_TEST);
     
     // move to origin
     glMatrixMode( GL_MODELVIEW );
-
+  
     glColor4f(1,1,1,1);
+    
+    
+    drawVector();
+    
+    
+    
+    
+    glLoadTransposeMatrixf( m_pose->matrix );
+    
+    
     
     // render game board with labyrinth
     renderBoard();

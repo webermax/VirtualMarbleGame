@@ -38,6 +38,8 @@ Labyrinth::Labyrinth()
 	else {
         cout << "Unable to open file"<<endl;
         createMaze();
+        
+        m_map[0]=0;
     }
 }
 
