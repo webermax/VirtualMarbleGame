@@ -18,6 +18,8 @@ Physics::Physics(Labyrinth* labyrinth, Marble* marble, Pose* pose)
 
 void Physics::process()
 {
+    double newX=m_marble->m_x;
+    double newY=m_marble->m_y;
     
     
     

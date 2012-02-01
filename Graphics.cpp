@@ -252,6 +252,39 @@ void Graphics::renderMarble()
     
 }
 
+void Graphics::drawVector()
+{
+    
+    
+    glLoadIdentity();
+    
+    float x=  m_pose->matrix[0+0]+  m_pose->matrix[0+1]+  m_pose->matrix[0+2];
+    float y=  m_pose->matrix[4+0]+  m_pose->matrix[4+1]+  m_pose->matrix[4+2];
+    float z=  m_pose->matrix[4+4+0]+  m_pose->matrix[4+4+1]+  m_pose->matrix[4+4+2];
+
+    
+    
+    glTranslated(0,0,-7);
+  //  glRotatef(45,1,1,0);
+    
+    
+    
+    glBegin(GL_TRIANGLES);
+    glColor3f(x,y,z);
+    glVertex3f(-1,0,0);
+    glVertex3f(1,0,0);
+    
+
+    
+    
+    glVertex3f(x,y,z);
+    glEnd();
+    
+       
+}
+
+
+
 void Graphics::display() 
 {
     // clear buffers
@@ -259,13 +292,14 @@ void Graphics::display()
     glMatrixMode(GL_MODELVIEW);
     
     glLoadIdentity();
-    
+   
     // draw background image
     glBindTexture(GL_TEXTURE_2D, NULL);
     glDisable( GL_DEPTH_TEST );
     
     glMatrixMode( GL_PROJECTION );
-    glPushMatrix();
+     glPushMatrix();
+
     glLoadIdentity();
     gluOrtho2D( 0.0, CAM_WIDTH, 0.0, CAM_HEIGHT );
     
@@ -273,13 +307,13 @@ void Graphics::display()
     m_videoManager->capture();
     glDrawPixels( CAM_WIDTH, CAM_HEIGHT, GL_BGR_EXT, GL_UNSIGNED_BYTE, m_videoManager->getImage() );
     
-    glPopMatrix();
+     glPopMatrix();
     
     glEnable(GL_DEPTH_TEST);
     
     // move to origin
     glMatrixMode( GL_MODELVIEW );
-
+  
     glColor4f(1,1,1,1);
     
     glLoadTransposeMatrixf( m_pose->matrix );

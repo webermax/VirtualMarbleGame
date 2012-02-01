@@ -82,7 +82,7 @@ void GenerateMaze(char *maze, int width, int height) {
 
    /* Set up the entry and exit. */
    maze[0 * width + 1] = 0;
-   maze[(height - 1) * width + (width - 2)] = 0;
+  // maze[(height - 1) * width + (width - 2)] = 0;
 
 }
 
