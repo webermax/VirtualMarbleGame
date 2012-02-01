@@ -164,7 +164,7 @@ int main(int argc, char* argv[])
     glutTimerFunc(t, trackingTimer, 1);
     glutTimerFunc(t, physicsTimer, 1);
 
-    glutMouseFunc(mouse);
+    //glutMouseFunc(mouse);
     
     // start the action
     glutMainLoop();

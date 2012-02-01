@@ -177,8 +177,6 @@ void Graphics::renderBoard()
     glDisable(GL_TEXTURE_GEN_S); 
     glDisable(GL_TEXTURE_GEN_T); 
 	
-	
-    
     glBindTexture(GL_TEXTURE_2D, m_texture_labyrinth);
     
     glPushMatrix();
@@ -298,7 +296,7 @@ void Graphics::display()
     glDisable( GL_DEPTH_TEST );
     
     glMatrixMode( GL_PROJECTION );
-     glPushMatrix();
+    glPushMatrix();
 
     glLoadIdentity();
     gluOrtho2D( 0.0, CAM_WIDTH, 0.0, CAM_HEIGHT );
@@ -307,7 +305,7 @@ void Graphics::display()
     m_videoManager->capture();
     glDrawPixels( CAM_WIDTH, CAM_HEIGHT, GL_BGR_EXT, GL_UNSIGNED_BYTE, m_videoManager->getImage() );
     
-     glPopMatrix();
+    glPopMatrix();
     
     glEnable(GL_DEPTH_TEST);
     
@@ -315,6 +313,8 @@ void Graphics::display()
     glMatrixMode( GL_MODELVIEW );
   
     glColor4f(1,1,1,1);
+    
+    //drawVector();
     
     glLoadTransposeMatrixf( m_pose->matrix );
     
