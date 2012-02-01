@@ -40,8 +40,6 @@ public:
     
     void translateZ(float z);
     
-public:
-    
     float m_x;
     
     float m_y;
@@ -49,11 +47,11 @@ public:
     float m_z;
     
     
-    float s_x;
+    float a_x;
     
-    float s_y;
+    float a_y;
     
-    float s_z;
+    float a_z;
  
     
     float v_x;

@@ -176,11 +176,23 @@ void Graphics::renderBoard()
 {
     glDisable(GL_TEXTURE_GEN_S); 
     glDisable(GL_TEXTURE_GEN_T); 
-	
-    glBindTexture(GL_TEXTURE_2D, m_texture_labyrinth);
-    
+	 
     glPushMatrix();
     glScalef(0.02, 0.02, 0.02);
+    
+    glBegin(GL_QUADS);
+    
+    glVertex3d(-Labyrinth_size/2-1,-Labyrinth_size/2-1,1);
+    glVertex3d(Labyrinth_size/2+1,-Labyrinth_size/2-1,1);
+    glVertex3d(Labyrinth_size/2+1,Labyrinth_size/2+1,1);
+    glVertex3d(-Labyrinth_size/2-1,Labyrinth_size/2+1,1);
+    
+    glEnd();
+    
+    
+    glBindTexture(GL_TEXTURE_2D, m_texture_labyrinth);
+   
+    
     glTranslatef(-Labyrinth_size/2,-Labyrinth_size/2,0);
     
     for(int x=0;x<Labyrinth_size;x++)

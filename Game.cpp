@@ -50,9 +50,12 @@ void hitkey( unsigned char key, int x, int y )
         case 108: // l key
             labyrinth->createMaze();
             break;
-        case 'n': // l key
-           marble->m_x=0;
-              marble->m_y=0;
+        case 'n': // n key
+            marble->m_x=0;
+            marble->m_y=0;
+            
+            marble->v_x=0;
+            marble->v_y=0;
             break;
     }
     //glutPostRedisplay();

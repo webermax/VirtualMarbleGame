@@ -15,9 +15,6 @@ Marble::Marble(float x, float y, float z, float radius, float weight) {
     v_x=0;
     v_y=0;
     v_z=0;
-    s_x=0;
-    s_y=0;
-    s_z=0;
     
     m_radius = radius;
     m_weight = weight;
