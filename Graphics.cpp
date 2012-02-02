@@ -178,7 +178,7 @@ void Graphics::renderBoard()
     glDisable(GL_TEXTURE_GEN_T); 
 	 
     glPushMatrix();
-    glScalef(0.02, 0.02, 0.02);
+    glScalef(0.005, 0.005, 0.005);
     
     glBegin(GL_QUADS);
     
@@ -223,7 +223,7 @@ void Graphics::renderMarble()
     
     glPushMatrix();
     
-    glScalef(0.02, 0.02, 0.02);
+    glScalef(0.005, 0.005, 0.005);
     glTranslatef( m_marble->getX(), m_marble->getY(), m_marble->getZ() );
     
     glutSolidSphere( m_marble->getRadius(), 30, 30 );

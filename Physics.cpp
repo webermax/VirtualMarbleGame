@@ -43,13 +43,14 @@ void Physics::process()
     
     // calculate components of gravity vector
     // assuming g = ( x = 0, y = -9.81, z = 0 ) in camera coordinates
-    float a_x = -m_pose->matrix[8] * 9.81;
-    float a_y = -m_pose->matrix[9] * 9.81;
-    float a_z = -m_pose->matrix[10] * 9.81;
+
+//    float a_x = -m_pose->matrix[8] * 9.81;
+//    float a_y = -m_pose->matrix[9] * 9.81;
+//    float a_z = -m_pose->matrix[10] * 9.81;
     
-//    float a_x = -m_pose->matrix[4] * 9.81;
-//    float a_y = -m_pose->matrix[5] * 9.81;
-//    float a_z = -m_pose->matrix[6] * 9.81;
+    float a_x = -m_pose->matrix[4] * 9.81;
+    float a_y = -m_pose->matrix[5] * 9.81;
+    float a_z = -m_pose->matrix[6] * 9.81;
     
     m_marble->v_x *=0.98;
     m_marble->v_y *=0.98;
