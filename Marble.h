@@ -8,6 +8,8 @@
 #ifndef VirtualMarbleGame_Marble_h
 #define VirtualMarbleGame_Marble_h
 
+#include "Labyrinth.h";
+
 class Marble {
     
 public:
@@ -45,25 +47,18 @@ public:
     float m_y;
     
     float m_z;
-    
-    
-    float a_x;
-    
-    float a_y;
-    
-    float a_z;
  
-    
     float v_x;
     
     float v_y;
     
     float v_z;
     
-    
     float m_weight;
     
     float m_radius;
+    
+    void reset();
     
 };
 

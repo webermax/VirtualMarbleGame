@@ -51,23 +51,17 @@ void hitkey( unsigned char key, int x, int y )
             labyrinth->createMaze();
             break;
         case 'n': // n key
-            marble->m_x=0;
-            marble->m_y=0;
-            
-            marble->v_x=0;
-            marble->v_y=0;
+            marble->reset();
             break;
     }
     //glutPostRedisplay();
 }
-
 
 void mouse(int button, int state, int x, int y) 
 {
   
 
 }
-
     
 void display()
 {    

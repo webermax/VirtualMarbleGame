@@ -8,13 +8,14 @@
 #include "Marble.h"
 
 Marble::Marble(float x, float y, float z, float radius, float weight) {
-    m_x = x;
-    m_y = y;
-    m_z = z;
-    
-    v_x=0;
-    v_y=0;
-    v_z=0;
+//    m_x = x;
+//    m_y = y;
+//    m_z = z;
+//    
+//    v_x=0;
+//    v_y=0;
+//    v_z=0;
+    reset();
     
     m_radius = radius;
     m_weight = weight;
@@ -70,4 +71,13 @@ void Marble::setRadius(float radius) {
 
 void Marble::setWeight(float weight) {
     m_weight = weight;
+}
+
+void Marble::reset() {
+    m_z = getRadius();
+    m_y = -Labyrinth_size / 2 + 0.5;
+    m_x = -Labyrinth_size / 2 + 0.5;
+    v_x = 0;
+    v_y = 0;
+    v_z = 0;
 }

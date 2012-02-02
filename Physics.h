@@ -27,7 +27,7 @@ public:
     void process();
     
 private:
-    void Collision();
+    void CollisionDetection();
     
     Labyrinth* m_labyrinth;
     
