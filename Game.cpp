@@ -119,7 +119,6 @@ static void trackingTimer(int value)
 
 static void physicsTimer(int value)
 {
-    
     physics -> process();
     
     glutTimerFunc (t, physicsTimer, value);

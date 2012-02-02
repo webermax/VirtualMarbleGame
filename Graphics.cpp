@@ -96,11 +96,7 @@ void Graphics::buildBlock( bool bottom = 1, bool top = 1, bool front = 1, bool b
     glEnd();
     
     glEndList();  
-    
-    
 }
-
-
 
 GLuint Graphics::LoadTGATexture( const char * filename)
 {
@@ -117,9 +113,6 @@ GLuint Graphics::LoadTGATexture( const char * filename)
 	
 	if (file.is_open())
 	{
-        
-	
-		
 		// type
 		file.seekg (2);
 		
@@ -127,13 +120,10 @@ GLuint Graphics::LoadTGATexture( const char * filename)
         
 		file.seekg( 12);
 		file.read (reinterpret_cast<char *>(&header.w), 5);
-
-		
 	     
         // data
         int bytes = header.w * header.h * header.bpp/8;
         header.data=new char [bytes];
-		
         
         file.seekg(18);
         file.read(header.data,bytes);
@@ -157,7 +147,7 @@ GLuint Graphics::LoadTGATexture( const char * filename)
 		
         }
 		
-		delete[]  header.data;
+		delete[] header.data;
 	}
 	
     return texture;		
@@ -170,7 +160,6 @@ Graphics::Graphics(Marble* marble, Labyrinth* labyrinth, VideoManager* videoMana
     m_videoManager = videoManager;
     m_pose =pose;
 }
-
 
 void Graphics::renderBoard()
 {
@@ -257,43 +246,30 @@ void Graphics::renderMarble()
     glVertex3f(x,y,z);
     
     glEnd();
-    
+
     glPopMatrix();
     
 }
 
 void Graphics::drawVector()
 {
-    
-    
     glLoadIdentity();
     
     float x=  m_pose->matrix[0+0]+  m_pose->matrix[0+1]+  m_pose->matrix[0+2];
     float y=  m_pose->matrix[4+0]+  m_pose->matrix[4+1]+  m_pose->matrix[4+2];
     float z=  m_pose->matrix[4+4+0]+  m_pose->matrix[4+4+1]+  m_pose->matrix[4+4+2];
-
-    
     
     glTranslated(0,0,-7);
-  //  glRotatef(45,1,1,0);
-    
-    
+//    glRotatef(45,1,1,0);
     
     glBegin(GL_TRIANGLES);
     glColor3f(x,y,z);
     glVertex3f(-1,0,0);
     glVertex3f(1,0,0);
     
-
-    
-    
     glVertex3f(x,y,z);
     glEnd();
-    
-       
 }
-
-
 
 void Graphics::display() 
 {
@@ -341,7 +317,6 @@ void Graphics::display()
     // glutPostRedisplay();
 
 }
-
 
 int Graphics::init()
 {
@@ -391,5 +366,4 @@ int Graphics::init()
     glEnable(GL_TEXTURE_2D);
     
     return windowId;
-    
 }

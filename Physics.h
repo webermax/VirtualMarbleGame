@@ -27,6 +27,7 @@ public:
     void process();
     
 private:
+    
     void CollisionDetection();
     
     Labyrinth* m_labyrinth;
@@ -34,6 +35,12 @@ private:
     Marble* m_marble;
     
     Pose* m_pose;
+    
+    float x_new;
+    
+    float y_new;
+    
+    float z_new;
     
 };
 

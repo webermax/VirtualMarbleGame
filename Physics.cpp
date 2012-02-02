@@ -18,18 +18,16 @@ Physics::Physics(Labyrinth* labyrinth, Marble* marble, Pose* pose)
 
 void Physics::CollisionDetection()
 {
-    if(abs(m_marble->m_x)>Labyrinth_size /2)
-        m_marble->v_x*=-1;
+    if(abs(x_new) >= Labyrinth_size /2)
+        m_marble->v_x *= -0.6;
  
-    if(abs(m_marble->m_y)>Labyrinth_size /2)
-        m_marble->v_y*=-1;
+    if(abs(y_new) >= Labyrinth_size /2)
+        m_marble->v_y *= -0.6;
 }
 
 void Physics::process()
 {
     float t = 0.033;
-    
-    // alert: horizontal mode!!!
     
     // calculate components of gravity vector
     // assuming g = ( x = 0, y = -9.81, z = 0 ) in camera coordinates
@@ -42,18 +40,20 @@ void Physics::process()
     float a_y = -m_pose->matrix[5] * 9.81;
 //    float a_z = -m_pose->matrix[6] * 9.81;
     
-    m_marble->v_x *=0.98;
-    m_marble->v_y *=0.98;
-    
     // calculate speed
-    m_marble->v_x += a_x * t*10;
-    m_marble->v_y += a_y * t*10;
+    m_marble->v_x += a_x * t * 10;
+    m_marble->v_y += a_y * t * 10;
     
-    // calculate position
+    // calculate new position
+    x_new = m_marble->m_x + m_marble->v_x * t;
+    y_new = m_marble->m_y + m_marble->v_y * t;
+    
+    // collision with level boundaries?
+    CollisionDetection(); 
+    
+    // set new position
     m_marble->m_x += m_marble->v_x * t;
     m_marble->m_y += m_marble->v_y * t;
-    
-    CollisionDetection();    
 }
 
 Physics::~Physics()
