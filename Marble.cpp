@@ -75,9 +75,9 @@ void Marble::setWeight(float weight) {
 }
 
 void Marble::reset() {
-    m_z = -m_radius;
-    m_y = -Labyrinth_size / 2 + 0.5;
-    m_x = -Labyrinth_size / 2 + 0.5;
+    m_z = m_radius;
+    m_y = 0.5;
+    m_x = 1.5;
     v_x = 0;
     v_y = 0;
     v_z = 0;

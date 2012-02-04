@@ -171,13 +171,12 @@ void Graphics::renderBoard()
     
     glBegin(GL_QUADS);
     
-    glVertex3d(-Labyrinth_size/2-1,-Labyrinth_size/2-1,1);
-    glVertex3d(Labyrinth_size/2+1,-Labyrinth_size/2-1,1);
-    glVertex3d(Labyrinth_size/2+1,Labyrinth_size/2+1,1);
-    glVertex3d(-Labyrinth_size/2-1,Labyrinth_size/2+1,1);
+    glVertex3d(-Labyrinth_size/2,-Labyrinth_size/2,1);
+    glVertex3d(Labyrinth_size/2,-Labyrinth_size/2,1);
+    glVertex3d(Labyrinth_size/2,Labyrinth_size/2,1);
+    glVertex3d(-Labyrinth_size/2,Labyrinth_size/2,1);
     
     glEnd();
-    
     
     glBindTexture(GL_TEXTURE_2D, m_texture_labyrinth);
    
@@ -213,7 +212,7 @@ void Graphics::renderMarble()
     glPushMatrix();
     
     glScalef(0.005, 0.005, 0.005);
-    glTranslatef( m_marble->getX(), m_marble->getY(), m_marble->getZ() );
+    glTranslatef( m_marble->getX() - Labyrinth_size/2, m_marble->getY() - Labyrinth_size/2, m_marble->getZ() );
     
     glutSolidSphere( m_marble->getRadius(), 30, 30 );
     

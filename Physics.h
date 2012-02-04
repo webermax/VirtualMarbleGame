@@ -28,7 +28,7 @@ public:
     
 private:
     
-    void CollisionDetection();
+    void collisionDetection();
     
     Labyrinth* m_labyrinth;
     
@@ -41,6 +41,10 @@ private:
     float y_new;
     
     float z_new;
+    
+    void collideX(float);
+    
+    void collideY(float);
     
 };
 

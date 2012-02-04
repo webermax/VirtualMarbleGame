@@ -51,18 +51,20 @@ bool Labyrinth::getMap() {
 
 char Labyrinth::getBlock( int x, int y )
 {
+    if(x > Labyrinth_size-1 || y > Labyrinth_size - 1)
+        return 1;
+    
+    if(x < 0 || y < 0)
+        return 1;
     
     return m_map[x+Labyrinth_size*y];
-    
 }
 
 bool Labyrinth::hasBlock( int x, int y ) 
-{
-  
+{  
     if(getBlock(x,y)==0)
        
         return false;
     else
         return true;
-    
 }

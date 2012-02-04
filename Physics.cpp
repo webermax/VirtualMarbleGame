@@ -16,13 +16,80 @@ Physics::Physics(Labyrinth* labyrinth, Marble* marble, Pose* pose)
     m_pose = pose;
 }
 
-void Physics::CollisionDetection()
+void Physics::collideX(float border) {
+    m_marble->v_x *= -0.5;
+    m_marble->m_x = border;
+}
+
+void Physics::collideY(float border) {
+    m_marble->v_y *= -0.5;
+    m_marble->m_y = border;
+}
+
+int x_old = -1, y_old = -1;
+
+/**
+ We check all 8 neighbours here
+**/
+void Physics::collisionDetection()
 {
-    if(abs(x_new) >= Labyrinth_size /2)
-        m_marble->v_x *= -0.6;
- 
-    if(abs(y_new) >= Labyrinth_size /2)
-        m_marble->v_y *= -0.6;
+//    /* Position in maze grid has changed */
+//    if((int)(m_marble->m_x) != x_old || (int)(m_marble->m_y) != y_old ) {
+//        
+//        x_old = (int)(m_marble->m_x);
+//        y_old = (int)(m_marble->m_y);
+//        
+//        printf("we are in %i, %i\n", (int)(m_marble->m_x), (int)(m_marble->m_y));
+//        
+//        printf("checking %i, %i: %i\n", (int)(m_marble->m_x) + 1, (int)(m_marble->m_y), m_labyrinth->hasBlock(m_marble->m_x+1, m_marble->m_y));
+//        printf("checking %i, %i: %i\n", (int)(m_marble->m_x) - 1, (int)(m_marble->m_y), m_labyrinth->hasBlock(m_marble->m_x-1, m_marble->m_y));
+//        printf("checking %i, %i: %i\n", (int)(m_marble->m_x), (int)(m_marble->m_y) + 1, m_labyrinth->hasBlock(m_marble->m_x, m_marble->m_y + 1));
+//        printf("checking %i, %i: %i\n", (int)(m_marble->m_x), (int)(m_marble->m_y) - 1, m_labyrinth->hasBlock(m_marble->m_x, m_marble->m_y - 1));
+//        
+//    }
+    
+    /* Level borders */
+    float max = Labyrinth_size - m_marble->m_radius;
+    float min = m_marble->m_radius;
+    if(x_new > max) {
+        collideX(max);
+    } else if(x_new < min) {
+        collideX(min);
+    }
+    if(y_new > max) {
+        collideY(max);
+    } else if(y_new < min) {
+        collideY(min);
+    }
+    
+    /* Maze blocks: x + 1 */
+    if(m_labyrinth->hasBlock(m_marble->m_x + 1, m_marble->m_y)) {
+        if((int)(x_new + m_marble->m_radius) > (int)m_marble->m_x) {
+            collideX((int)(m_marble->m_x + 1) - m_marble->m_radius);
+        }
+    }
+    
+    /* Maze blocks: x - 1 */
+    if(m_labyrinth->hasBlock(m_marble->m_x - 1, m_marble->m_y)) {
+        if((int)(x_new - m_marble->m_radius) < (int)m_marble->m_x) {
+            collideX((int)(m_marble->m_x) + m_marble->m_radius);
+        }
+    }
+    
+    /* Maze blocks: y + 1 */
+    if(m_labyrinth->hasBlock(m_marble->m_x, m_marble->m_y + 1)) {
+        if((int)(y_new + m_marble->m_radius) > (int)m_marble->m_y) {
+            collideY((int)(m_marble->m_y + 1) - m_marble->m_radius);
+        }
+    }
+    
+    /* Maze blocks: y - 1 */
+    if(m_labyrinth->hasBlock(m_marble->m_x, m_marble->m_y - 1)) {
+        if((int)(y_new - m_marble->m_radius) < (int)m_marble->m_y) {
+            collideY((int)(m_marble->m_y) + m_marble->m_radius);
+        }
+    }
+
 }
 
 void Physics::process()
@@ -49,11 +116,15 @@ void Physics::process()
     y_new = m_marble->m_y + m_marble->v_y * t;
     
     // collision with level boundaries?
-    CollisionDetection(); 
+    collisionDetection(); 
     
     // set new position
-    m_marble->m_x += m_marble->v_x * t;
-    m_marble->m_y += m_marble->v_y * t;
+    float increment_x = m_marble->v_x * t;
+    //if(abs(increment_x) > 0.05)
+        m_marble->m_x += increment_x;
+    float increment_y = m_marble->v_y * t;
+    //if(abs(increment_y) > 0.05)
+        m_marble->m_y += increment_y;
 }
 
 Physics::~Physics()
