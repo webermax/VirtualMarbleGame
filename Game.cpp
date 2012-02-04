@@ -33,6 +33,7 @@ static void trackingTimer(int value);
 static void ballTimer(int value);
 static void physicsTimer(int value);
 void hitkey( unsigned char key, int x, int y );
+void win();
 
 int windowId;
 int t = 30;
@@ -77,6 +78,17 @@ void idle()
 {
     graphics->idle();
 }
+
+void win()
+{
+
+    labyrinth->createMaze(); 
+   marble->reset();
+   
+    
+    
+}
+
 
 double yStart = 5.0;
 double speed = 0.0;

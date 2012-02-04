@@ -13,6 +13,8 @@
 
 using namespace std;
 
+float rx;
+
 void Graphics::resize( int width, int height) 
 {
 
@@ -193,8 +195,24 @@ void Graphics::renderBoard()
                 glCallList(block);
                 glTranslatef(-x,-y,0);
             }
+            
+            
         }
     }
+    glEnable(GL_BLEND);
+    glDisable(GL_TEXTURE);
+   
+    glColor4f(0,1,1,0.15);
+    
+    glTranslatef(Labyrinth_size-1,Labyrinth_size-1,0);
+
+    glCallList(block);
+
+  glTranslatef(-Labyrinth_size+1,-Labyrinth_size+1,0); 
+    
+   glColor4f(1,1,1,1);
+      glEnable(GL_TEXTURE);
+    glDisable(GL_BLEND);
 
     glTranslatef(Labyrinth_size/2,Labyrinth_size/2,0);
     glPopMatrix();
@@ -376,6 +394,9 @@ int Graphics::init()
     
     glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);   
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);  
+    
+    glBlendFunc(GL_DST_COLOR, GL_SRC_ALPHA);
+    
     
     buildBlock();
     
