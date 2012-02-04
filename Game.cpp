@@ -33,7 +33,7 @@ static void trackingTimer(int value);
 static void ballTimer(int value);
 static void physicsTimer(int value);
 void hitkey( unsigned char key, int x, int y );
-void win();
+void checkFinish( int value);
 
 int windowId;
 int t = 30;
@@ -79,15 +79,28 @@ void idle()
     graphics->idle();
 }
 
-void win()
-{
 
-    labyrinth->createMaze(); 
+
+
+void checkFinish( int value)
+{
+    if(marble->m_x>Labyrinth_size-1 && marble->m_y>Labyrinth_size-1)
+    {
+        
+        //TODO: Play some Sounds..
+        
+       
+         labyrinth->createMaze(); 
    marble->reset();
    
-    
-    
+   
+        
+        
+    }
+     glutTimerFunc (t, checkFinish, value);
 }
+
+
 
 
 double yStart = 5.0;
@@ -171,7 +184,7 @@ int main(int argc, char* argv[])
     glutKeyboardFunc( hitkey );
     glutTimerFunc(t, trackingTimer, 1);
     glutTimerFunc(t, physicsTimer, 1);
-
+    glutTimerFunc(t, checkFinish, 1);
     //glutMouseFunc(mouse);
     
     // start the action

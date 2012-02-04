@@ -93,20 +93,6 @@ void Physics::collisionDetection()
 
 }
 
-void Physics::CheckFinish()
-{
-    if(m_marble->m_x>Labyrinth_size-1 && m_marble->m_y>Labyrinth_size-1)
-    {
-        
-        //TODO: Play some Sounds..
-        
-     //Game->win();
-        
-        
-      
-    }
-    
-}
 
 
 
@@ -144,8 +130,7 @@ void Physics::process()
     //if(abs(increment_y) > 0.05)
         m_marble->m_y += increment_y;
     
-    CheckFinish();
-   
+  
 }
 
 Physics::~Physics()
