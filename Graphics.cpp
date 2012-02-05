@@ -164,7 +164,7 @@ Graphics::Graphics(bool debug, Marble* marble, Labyrinth* labyrinth, VideoManage
     m_debug = debug;
     m_gravity = gravity;
     m_calibrate = 1;
-    rotate90=false;
+    rotate90 = false;
 }
 
 void Graphics::renderBoard()

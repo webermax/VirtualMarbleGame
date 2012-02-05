@@ -58,6 +58,7 @@ void hitkey( unsigned char key, int x, int y )
         case 'c': // c key
             graphics->switchCalibrate();
             trackingManager->switchCalibrate();
+            physics->switchCalibrate();
             break;
         case  'r':
             physics->switch90();

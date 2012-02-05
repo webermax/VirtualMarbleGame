@@ -29,6 +29,8 @@ public:
     
     bool  rotate90;
     
+    void switchCalibrate();
+    
 private:
     void CheckFinish();
     
@@ -42,7 +44,6 @@ private:
     
     Pose* m_gravity;
     
-    
     float x_new;
     
     float y_new;
@@ -52,6 +53,8 @@ private:
     void collideX(float);
     
     void collideY(float);
+    
+    bool m_calibrate;
     
 };
 

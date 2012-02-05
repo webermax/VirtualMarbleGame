@@ -16,7 +16,8 @@ Physics::Physics(Labyrinth* labyrinth, Marble* marble, Pose* pose, Pose* gravity
     m_marble = marble;
     m_pose = pose;
     m_gravity = gravity;
-    rotate90=false;
+    rotate90 = false;
+    m_calibrate = 1;
 }
 
 void Physics::collideX(float border) {
@@ -96,11 +97,14 @@ void Physics::collisionDetection()
 }
 void Physics::switch90()
 {
-    rotate90=!rotate90;
+    rotate90 =! rotate90;
 }
 
 void Physics::process()
 {
+    if(m_calibrate)
+        return;
+    
     float t = 0.033;
     
     // calculate components of gravity vector
@@ -111,16 +115,22 @@ void Physics::process()
     
     // transform gravity coordinates to world coordinates
     // assuming g = ( x = 0, y = -9.81, z = 0 ) in calibration coordinates
- 
-    float x_world = m_gravity->matrix[4] * -9.81;
-    float y_world = m_gravity->matrix[5] * -9.81;
-    float z_world = m_gravity->matrix[6] * -9.81;
+    
+    float x_world;
+    float y_world;
+    float z_world;
    
     if(rotate90)
     {
-     x_world = m_gravity->matrix[8] * 9.81;
-     y_world = m_gravity->matrix[9] * 9.81;
-     z_world = m_gravity->matrix[10] * 9.81;
+        x_world = m_gravity->matrix[8] * 9.81;
+        y_world = m_gravity->matrix[9] * 9.81;
+        z_world = m_gravity->matrix[10] * 9.81;
+    }
+    else
+    {
+        x_world = m_gravity->matrix[4] * -9.81;
+        y_world = m_gravity->matrix[5] * -9.81;
+        z_world = m_gravity->matrix[6] * -9.81;
     }
     
     // transform world coordinates to labyrinth coordinates
@@ -152,4 +162,8 @@ void Physics::process()
 Physics::~Physics()
 {
     
+}
+
+void Physics::switchCalibrate() {
+    m_calibrate ^= 1;
 }
