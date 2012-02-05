@@ -378,14 +378,15 @@ int Graphics::init()
     
     // light parameters
     GLfloat light_pos0[] = { 5.0, 5.0, 2.0, 1.0 };
-    GLfloat light_pos1[] = { -5.0, 0.0, 2.0,   1.0 };
+    //GLfloat light_pos1[] = { -5.0, 0.0, 2.0,   1.0 };
+    GLfloat light_pos1[] = { -0.0, 0.0, 2,   1.0 };
     
     GLfloat light_amb[] = { 0.2, 0.2, 0.2, 1.0 };
     GLfloat light_dif0[] = { 1.0, 0.9, 0.9, 1.0 };
     GLfloat light_dif1[] = { 1.0, 1.0, 0.9, 1.0 };
 
-    GLfloat light_quad_att[] = { 8};
-    GLfloat light_lin_att[] = { 0.0};
+    GLfloat light_quad_att[] = { 50};
+    GLfloat light_lin_att[] = { 10.0};
 
     
     
