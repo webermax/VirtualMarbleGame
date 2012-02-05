@@ -5,8 +5,6 @@
 //  Created by Maximilian Weber
 //
 
-
-
 #include <iostream>
 #include <iomanip>
 #include <stdio.h>
@@ -27,8 +25,8 @@ void VideoManager::initVideoStream() {
         exit(0);
     }
     capture();
-    cvSetCaptureProperty( m_cap, CV_CAP_PROP_FRAME_WIDTH, 640 );
-    cvSetCaptureProperty( m_cap, CV_CAP_PROP_FRAME_HEIGHT, 480 );
+    cvSetCaptureProperty( m_cap, CV_CAP_PROP_FRAME_WIDTH, CAM_WIDTH );
+    cvSetCaptureProperty( m_cap, CV_CAP_PROP_FRAME_HEIGHT, CAM_HEIGHT );
 }
 
 void VideoManager::capture() {

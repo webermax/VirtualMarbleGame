@@ -408,7 +408,7 @@ int Graphics::init()
     
     // initialize the window system
    
-    glutInitWindowSize( 640,480);
+    glutInitWindowSize( CAM_WIDTH, CAM_HEIGHT);
     
     glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
     int windowId = glutCreateWindow("Virtual Marble Game");
