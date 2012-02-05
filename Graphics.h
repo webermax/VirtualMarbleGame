@@ -31,7 +31,7 @@ class Graphics {
     
 public:
     
-    Graphics(bool, Marble*, Labyrinth*, VideoManager*, Pose*);  
+    Graphics(bool, Marble*, Labyrinth*, VideoManager*, Pose*, Pose*);  
     
     void display();
  
@@ -45,6 +45,8 @@ public:
     
     Marble* getMarble();
     
+    void switchCalibrate();
+    
 private:
     
     Board* m_board;
@@ -57,6 +59,8 @@ private:
    
     Pose* m_pose;
     
+    Pose* m_gravity;
+    
     void drawVector();
     
     void buildBlock( bool, bool, bool, bool, bool, bool );
@@ -67,6 +71,8 @@ private:
     
     void renderMarble();
     
+    void renderGravityVector();
+    
     GLuint block;
     
     GLuint m_texture_labyrinth;
@@ -76,6 +82,8 @@ private:
     double ry;
     
     bool m_debug;
+    
+    bool m_calibrate;
     
 };
 
