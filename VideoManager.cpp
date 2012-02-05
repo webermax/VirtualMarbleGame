@@ -40,7 +40,7 @@ void VideoManager::capture() {
     }
     
     // Mirrorfeeling
-     cvFlip(m_grab, NULL, 1);
+    cvFlip(m_grab, NULL, 1);
     
     picSize = cvGetSize(m_grab);
 }

@@ -35,7 +35,7 @@ class TrackingManager {
     
 public:
     
-    TrackingManager(bool debug, VideoManager* videoManager, Pose* pose);
+    TrackingManager(bool debug, VideoManager* videoManager, Pose* pose, Pose* gravity);
     ~TrackingManager();
     void process();
     void init();
@@ -44,6 +44,7 @@ private:
     
     VideoManager* m_videoManager;
     Pose* m_pose;
+    Pose* m_gravity;
     bool m_debug;
     
 };

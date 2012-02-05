@@ -24,6 +24,7 @@ Labyrinth* labyrinth;
 VideoManager* videoManager;
 TrackingManager* trackingManager;
 Pose* pose;
+Pose* gravity;
 Physics* physics;
 
 void display();
@@ -144,7 +145,8 @@ int main(int argc, char* argv[])
     
     videoManager = new VideoManager(cameraNumber);
     pose = new Pose();
-    trackingManager = new TrackingManager(debug, videoManager, pose);
+    gravity = new Pose();
+    trackingManager = new TrackingManager(debug, videoManager, pose, gravity);
     marble = new Marble(0, 0, -3, 0.4, 1);
     labyrinth = new Labyrinth();
     graphics = new Graphics(marble, labyrinth, videoManager, pose);

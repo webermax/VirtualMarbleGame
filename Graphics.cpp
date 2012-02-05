@@ -286,9 +286,11 @@ void Graphics::display()
     glPushMatrix();
 
     glLoadIdentity();
-    gluOrtho2D( 0.0, CAM_WIDTH, 0.0, CAM_HEIGHT );
+    
+    gluOrtho2D( 0.0, CAM_WIDTH, 0.0, CAM_HEIGHT );    
     
     glRasterPos2i( 0, CAM_HEIGHT-1 );
+    
     m_videoManager->capture();
     glDrawPixels( CAM_WIDTH, CAM_HEIGHT, GL_BGR_EXT, GL_UNSIGNED_BYTE, m_videoManager->getImage() );
     

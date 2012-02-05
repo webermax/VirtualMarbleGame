@@ -9,9 +9,10 @@
 
 #include "TrackingManager.h"
 
-TrackingManager::TrackingManager(bool debug, VideoManager* videoManager, Pose* pose)
+TrackingManager::TrackingManager(bool debug, VideoManager* videoManager, Pose* pose, Pose* gravity)
 {
     m_pose = pose;
+    m_gravity = gravity;
     m_debug = debug;
     m_videoManager = videoManager;
     init();
@@ -57,13 +58,13 @@ int subpixSampleSafe ( const IplImage* pSrc, CvPoint2D32f p )
 
 void TrackingManager::init()
 {
-    //cvNamedWindow ("Captured Image", CV_WINDOW_AUTOSIZE);
     
     int value = thresh;
     int max = 255;
     int bw_value = bw_thresh;
     
     if(m_debug) {
+//        cvNamedWindow ("Captured Image", CV_WINDOW_AUTOSIZE);
         cvNamedWindow ("Threshold", CV_WINDOW_AUTOSIZE);
         cvNamedWindow ("Stripe", CV_WINDOW_AUTOSIZE);
         cvNamedWindow ("Marker", 0 );
@@ -264,12 +265,12 @@ void TrackingManager::process()
                     
 					if (isFirstStripe)
 					{
-						IplImage* iplTmp = cvCreateImage( cvSize(100,300), IPL_DEPTH_8U, 1 );
-						cvResize( iplStripe, iplTmp, CV_INTER_NN );
                         if(m_debug) {
+                            IplImage* iplTmp = cvCreateImage( cvSize(100,300), IPL_DEPTH_8U, 1 );
+                            cvResize( iplStripe, iplTmp, CV_INTER_NN );
                             cvShowImage ( "Stripe", iplTmp );//iplStripe );
+                            cvReleaseImage( &iplTmp );
                         }
-						cvReleaseImage( &iplTmp );
 						isFirstStripe = false;
 					}
                     
@@ -448,8 +449,10 @@ void TrackingManager::process()
 				corners[i].x -= CAM_WIDTH/2;
 				corners[i].y = -corners[i].y + CAM_HEIGHT/2;
 			}
-			
-			estimateSquarePose( m_pose->matrix, corners, 0.045 );
+            
+            if(code == 0x0d22) estimateSquarePose( m_gravity->matrix, corners, 0.045 );
+			//else if(code == 0x43F6) estimateSquarePose( resultMatrix_0272, corners, 0.045 );
+            else estimateSquarePose( m_pose->matrix, corners, 0.045 );
             
             if(m_debug) {
                 for (int i = 0; i<4; ++i) {
@@ -460,16 +463,6 @@ void TrackingManager::process()
                     }
                     cout << "\n";
                 }
-                cout << "\n";
-            }
-            
-			float x,y,z;
-			x = m_pose->matrix[3];
-			y = m_pose->matrix[7];
-			z = m_pose->matrix[11];
-            
-            if(m_debug) {
-                cout << "length: " << sqrt(x*x+y*y+z*z) << "\n";
                 cout << "\n";
             }
             
@@ -500,7 +493,7 @@ TrackingManager::~TrackingManager()
     
     if(m_debug) {
         cvDestroyWindow ("Threshold");
-        cvDestroyWindow ("Captured Image");
+        //cvDestroyWindow ("Captured Image");
         cvDestroyWindow ("Stripe");
         cvDestroyWindow ("Marker");
     }
