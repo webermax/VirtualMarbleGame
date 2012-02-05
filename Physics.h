@@ -27,6 +27,7 @@ public:
     void process();
     
 private:
+    void CheckFinish();
     
     void collisionDetection();
     

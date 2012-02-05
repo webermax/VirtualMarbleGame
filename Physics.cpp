@@ -7,6 +7,7 @@
 
 #include <iostream>
 
+
 #include "Physics.h"
 
 Physics::Physics(Labyrinth* labyrinth, Marble* marble, Pose* pose)
@@ -92,6 +93,9 @@ void Physics::collisionDetection()
 
 }
 
+
+
+
 void Physics::process()
 {
     float t = 0.033;
@@ -125,6 +129,8 @@ void Physics::process()
     float increment_y = m_marble->v_y * t;
     //if(abs(increment_y) > 0.05)
         m_marble->m_y += increment_y;
+    
+  
 }
 
 Physics::~Physics()

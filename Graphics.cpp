@@ -13,6 +13,8 @@
 
 using namespace std;
 
+float rx;
+
 void Graphics::resize( int width, int height) 
 {
 
@@ -193,8 +195,24 @@ void Graphics::renderBoard()
                 glCallList(block);
                 glTranslatef(-x,-y,0);
             }
+            
+            
         }
     }
+    glEnable(GL_BLEND);
+    glDisable(GL_TEXTURE);
+   
+    glColor4f(0,1,1,0.15);
+    
+    glTranslatef(Labyrinth_size-1,Labyrinth_size-1,0);
+
+    glCallList(block);
+
+  glTranslatef(-Labyrinth_size+1,-Labyrinth_size+1,0); 
+    
+   glColor4f(1,1,1,1);
+      glEnable(GL_TEXTURE);
+    glDisable(GL_BLEND);
 
     glTranslatef(Labyrinth_size/2,Labyrinth_size/2,0);
     glPopMatrix();
@@ -345,19 +363,42 @@ int Graphics::init()
     glClearDepth( 1.0 );
     
     // light parameters
-    GLfloat light_pos[] = { 10.0, 10.0, 10.0, 0.0 };
+    GLfloat light_pos0[] = { 5.0, 5.0, 0.0, 1.0 };
+    GLfloat light_pos1[] = { 5.0, 0.0, 0.0,   1.0 };
+    
     GLfloat light_amb[] = { 0.2, 0.2, 0.2, 1.0 };
-    GLfloat light_dif[] = { 0.7, 0.7, 0.7, 1.0 };
+    GLfloat light_dif0[] = { 1.0, 0.9, 0.9, 1.0 };
+    GLfloat light_dif1[] = { 1.0, 1.0, 0.9, 1.0 };
+
+    GLfloat light_quad_att[] = { 10};
+    GLfloat light_lin_att[] = { 0.8};
+
+    
     
     // enable lighting
-    glLightfv( GL_LIGHT0, GL_POSITION, light_pos );
+    glLightfv( GL_LIGHT0, GL_POSITION, light_pos0 );
     glLightfv( GL_LIGHT0, GL_AMBIENT,  light_amb );
-    glLightfv( GL_LIGHT0, GL_DIFFUSE,  light_dif );
+    glLightfv( GL_LIGHT0, GL_DIFFUSE,  light_dif0 );
+      glLightfv( GL_LIGHT0, GL_QUADRATIC_ATTENUATION,  light_quad_att );
+    glLightfv( GL_LIGHT0, GL_LINEAR_ATTENUATION, light_lin_att );
+    
+    glLightfv( GL_LIGHT1, GL_POSITION, light_pos1 );
+    glLightfv( GL_LIGHT1, GL_AMBIENT,  light_amb );
+    glLightfv( GL_LIGHT1, GL_DIFFUSE,  light_dif1 );
+ 
+     glLightfv( GL_LIGHT1, GL_QUADRATIC_ATTENUATION, light_quad_att );
+     glLightfv( GL_LIGHT1, GL_LINEAR_ATTENUATION, light_lin_att );
+
+    
     glEnable( GL_LIGHTING );
     glEnable( GL_LIGHT0 );  
+    glEnable( GL_LIGHT1 );  
     
     glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);   
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);  
+    
+    glBlendFunc(GL_DST_COLOR, GL_SRC_ALPHA);
+    
     
     buildBlock();
     

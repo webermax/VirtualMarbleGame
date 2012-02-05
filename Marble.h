@@ -8,7 +8,7 @@
 #ifndef VirtualMarbleGame_Marble_h
 #define VirtualMarbleGame_Marble_h
 
-#include "Labyrinth.h";
+#include "Labyrinth.h"
 
 class Marble {
     
