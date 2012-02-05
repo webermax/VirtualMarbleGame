@@ -10,11 +10,12 @@
 
 #include "Physics.h"
 
-Physics::Physics(Labyrinth* labyrinth, Marble* marble, Pose* pose)
+Physics::Physics(Labyrinth* labyrinth, Marble* marble, Pose* pose, Pose* gravity)
 {
     m_labyrinth = labyrinth;
     m_marble = marble;
     m_pose = pose;
+    m_gravity = gravity;
 }
 
 void Physics::collideX(float border) {
@@ -93,23 +94,26 @@ void Physics::collisionDetection()
 
 }
 
-
-
-
 void Physics::process()
 {
     float t = 0.033;
     
     // calculate components of gravity vector
     // assuming g = ( x = 0, y = -9.81, z = 0 ) in camera coordinates
-
-//    float a_x = -m_pose->matrix[8] * 9.81;
-//    float a_y = -m_pose->matrix[9] * 9.81;
-//    float a_z = -m_pose->matrix[10] * 9.81;
+//    float a_x = m_gravity->matrix[4] * 9.81;
+//    float a_y = m_gravity->matrix[5] * 9.81;
+//    float a_z = m_gravity->matrix[6] * 9.81;
     
-    float a_x = -m_pose->matrix[4] * 9.81;
-    float a_y = -m_pose->matrix[5] * 9.81;
-//    float a_z = -m_pose->matrix[6] * 9.81;
+    // transform gravity coordinates to world coordinates
+    // assuming g = ( x = 0, y = -9.81, z = 0 ) in calibration coordinates
+    float x_world = m_gravity->matrix[4] * -9.81;
+    float y_world = m_gravity->matrix[5] * -9.81;
+    float z_world = m_gravity->matrix[6] * -9.81;
+    
+    // transform world coordinates to labyrinth coordinates
+    float a_x = m_pose->matrix[0] * x_world + m_pose->matrix[4] * y_world + m_pose->matrix[8] * z_world;
+    float a_y = m_pose->matrix[1] * x_world + m_pose->matrix[5] * y_world + m_pose->matrix[9] * z_world;
+//    float a_z = m_pose->matrix[2] * x_world + m_pose->matrix[6] * y_world + m_pose->matrix[10] * z_world;
     
     // calculate speed
     m_marble->v_x += a_x * t * 10;
@@ -129,8 +133,7 @@ void Physics::process()
     float increment_y = m_marble->v_y * t;
     //if(abs(increment_y) > 0.05)
         m_marble->m_y += increment_y;
-    
-  
+
 }
 
 Physics::~Physics()

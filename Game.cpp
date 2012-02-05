@@ -167,7 +167,7 @@ int main(int argc, char* argv[])
     marble = new Marble(0, 0, -3, 0.4, 1);
     labyrinth = new Labyrinth();
     graphics = new Graphics(debug, marble, labyrinth, videoManager, pose, gravity);
-    physics = new Physics(labyrinth, marble, pose);
+    physics = new Physics(labyrinth, marble, pose, gravity);
     
     windowId = graphics->init();
     

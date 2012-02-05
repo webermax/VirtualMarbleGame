@@ -250,9 +250,20 @@ void Graphics::renderMarble()
         
         // calculate components of gravity vector
         // assuming g = ( x = 0, y = -9.81, z = 0 ) in camera coordinates
-        float x = -m_pose->matrix[4] * 9.81;
-        float y = -m_pose->matrix[5] * 9.81;
-        float z = -m_pose->matrix[6] * 9.81;
+//        float x = -m_pose->matrix[4] * 9.81;
+//        float y = -m_pose->matrix[5] * 9.81;
+//        float z = -m_pose->matrix[6] * 9.81;
+        
+        // transform gravity coordinates to world coordinates
+        // assuming g = ( x = 0, y = -9.81, z = 0 ) in calibration coordinates
+        float x_world = m_gravity->matrix[4] * -9.81;
+        float y_world = m_gravity->matrix[5] * -9.81;
+        float z_world = m_gravity->matrix[6] * -9.81;
+        
+        // transform world coordinates to labyrinth coordinates
+        float x = m_pose->matrix[0] * x_world + m_pose->matrix[4] * y_world + m_pose->matrix[8] * z_world;
+        float y = m_pose->matrix[1] * x_world + m_pose->matrix[5] * y_world + m_pose->matrix[9] * z_world;
+        float z = m_pose->matrix[2] * x_world + m_pose->matrix[6] * y_world + m_pose->matrix[10] * z_world;
     
         //printf("(x: %f, y: %f, z: %f)\n", x ,y ,z);
         
