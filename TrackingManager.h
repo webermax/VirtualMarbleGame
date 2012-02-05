@@ -39,6 +39,7 @@ public:
     ~TrackingManager();
     void process();
     void init();
+    void switchCalibrate();
     
 private:
     
@@ -46,6 +47,7 @@ private:
     Pose* m_pose;
     Pose* m_gravity;
     bool m_debug;
+    bool m_calibrate;
     
 };
 

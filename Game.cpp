@@ -55,6 +55,10 @@ void hitkey( unsigned char key, int x, int y )
         case 'n': // n key
             marble->reset();
             break;
+        case 'c': // c key
+            graphics->switchCalibrate();
+            trackingManager->switchCalibrate();
+            break;
     }
     //glutPostRedisplay();
 }
@@ -80,29 +84,17 @@ void idle()
     graphics->idle();
 }
 
-
-
-
 void checkFinish( int value)
 {
     if(marble->m_x>Labyrinth_size-1 && marble->m_y>Labyrinth_size-1)
     {
-        
         //TODO: Play some Sounds..
-        
        
-         labyrinth->createMaze(); 
-   marble->reset();
-   
-   
-        
-        
+        labyrinth->createMaze(); 
+        marble->reset();
     }
-     glutTimerFunc (t, checkFinish, value);
+    glutTimerFunc (t, checkFinish, value);
 }
-
-
-
 
 double yStart = 5.0;
 double speed = 0.0;
@@ -174,8 +166,8 @@ int main(int argc, char* argv[])
     trackingManager = new TrackingManager(debug, videoManager, pose, gravity);
     marble = new Marble(0, 0, -3, 0.4, 1);
     labyrinth = new Labyrinth();
-    graphics = new Graphics(marble, labyrinth, videoManager, pose);
-    physics = new Physics(labyrinth, marble, pose);
+    graphics = new Graphics(debug, marble, labyrinth, videoManager, pose, gravity);
+    physics = new Physics(labyrinth, marble, pose, gravity);
     
     windowId = graphics->init();
     

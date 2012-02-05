@@ -155,12 +155,15 @@ GLuint Graphics::LoadTGATexture( const char * filename)
     return texture;		
 }
 
-Graphics::Graphics(Marble* marble, Labyrinth* labyrinth, VideoManager* videoManager, Pose* pose)
+Graphics::Graphics(bool debug, Marble* marble, Labyrinth* labyrinth, VideoManager* videoManager, Pose* pose, Pose* gravity)
 {
     m_marble = marble;
     m_labyrinth = labyrinth;
     m_videoManager = videoManager;
-    m_pose =pose;
+    m_pose = pose;
+    m_debug = debug;
+    m_gravity = gravity;
+    m_calibrate = 1;
 }
 
 void Graphics::renderBoard()
@@ -171,6 +174,8 @@ void Graphics::renderBoard()
     glPushMatrix();
     glScalef(0.005, 0.005, 0.005);
     
+    glColor4f(1,1,1,1); // white
+    
     glBegin(GL_QUADS);
     
     glVertex3d(-Labyrinth_size/2,-Labyrinth_size/2,1);
@@ -179,8 +184,6 @@ void Graphics::renderBoard()
     glVertex3d(-Labyrinth_size/2,Labyrinth_size/2,1);
     
     glEnd();
-    
-    
     
     glTranslatef(-Labyrinth_size/2,-Labyrinth_size/2,0);
     
@@ -205,13 +208,8 @@ void Graphics::renderBoard()
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     ////////////////
-
-     
-    
     
     glBindTexture(GL_TEXTURE_2D, m_texture_labyrinth);
-   
-    
    
     for(int x=0;x<Labyrinth_size;x++)
     {
@@ -248,36 +246,74 @@ void Graphics::renderMarble()
     
     glutSolidSphere( m_marble->getRadius(), 30, 30 );
     
-    // calculate components of gravity vector
-    // assuming g = ( x = 0, y = -9.81, z = 0 ) in camera coordinates
-    float x = -m_pose->matrix[4] * 9.81;
-    float y = -m_pose->matrix[5] * 9.81;
-    float z = -m_pose->matrix[6] * 9.81;
+    if(m_debug) {
+        
+        // calculate components of gravity vector
+        // assuming g = ( x = 0, y = -9.81, z = 0 ) in camera coordinates
+//        float x = -m_pose->matrix[4] * 9.81;
+//        float y = -m_pose->matrix[5] * 9.81;
+//        float z = -m_pose->matrix[6] * 9.81;
+        
+        // transform gravity coordinates to world coordinates
+        // assuming g = ( x = 0, y = -9.81, z = 0 ) in calibration coordinates
+        float x_world = m_gravity->matrix[4] * -9.81;
+        float y_world = m_gravity->matrix[5] * -9.81;
+        float z_world = m_gravity->matrix[6] * -9.81;
+        
+        // transform world coordinates to labyrinth coordinates
+        float x = m_pose->matrix[0] * x_world + m_pose->matrix[4] * y_world + m_pose->matrix[8] * z_world;
+        float y = m_pose->matrix[1] * x_world + m_pose->matrix[5] * y_world + m_pose->matrix[9] * z_world;
+        float z = m_pose->matrix[2] * x_world + m_pose->matrix[6] * y_world + m_pose->matrix[10] * z_world;
     
-    //printf("(x: %f, y: %f, z: %f)\n", x ,y ,z);
-    
-    // draw gravity vector components
-    glBegin(GL_LINES);
-    glLineWidth(100);
-    
-    glColor3f(1,0,0); // red
-    glVertex3f(0,0,0);
-    glVertex3f(x,0,0);
-    
-    glColor3f(0,1,0); // green
-    glVertex3f(0,0,0);
-    glVertex3f(0,y,0);
-    
-    glColor3f(0,0,1); // blue
-    glVertex3f(0,0,0);
-    glVertex3f(0,0,z);
-    
-    glColor3f(1,1,0); // yellow
-    glVertex3f(0,0,0);
-    glVertex3f(x,y,z);
-    
-    glEnd();
+        //printf("(x: %f, y: %f, z: %f)\n", x ,y ,z);
+        
+        // draw gravity vector components
+        glBegin(GL_LINES);
+        glLineWidth(100);
+        
+        glColor3f(1,0,0); // red
+        glVertex3f(0,0,0);
+        glVertex3f(x,0,0);
+        
+        glColor3f(0,1,0); // green
+        glVertex3f(0,0,0);
+        glVertex3f(0,y,0);
+        
+        glColor3f(0,0,1); // blue
+        glVertex3f(0,0,0);
+        glVertex3f(0,0,z);
+        
+        glColor3f(1,1,0); // yellow
+        glVertex3f(0,0,0);
+        glVertex3f(x,y,z);
+        
+        glEnd();
+    }
 
+    glPopMatrix();
+    
+}
+
+void Graphics::renderGravityVector() {
+    
+    glPushMatrix();
+    
+    glColor3f(1,0,1); // fuchsia
+    
+//    glLineWidth(10);
+//    glBegin(GL_LINES);
+//    glVertex3f(0,0,0);
+//    glVertex3f(0,-0.1,0);
+//    glEnd();
+    
+    glRotatef(90, 1, 0, 0);
+    
+    gluCylinder(gluNewQuadric(), 0.005, 0.005, 0.1, 20, 20);
+    
+    glTranslatef(0,0,0.1);
+    
+    glutSolidCone( 0.01 , 0.02 , 30 , 30 );
+    
     glPopMatrix();
     
 }
@@ -332,18 +368,22 @@ void Graphics::display()
     
     // move to origin
     glMatrixMode( GL_MODELVIEW );
-  
-    glColor4f(1,1,1,1);
     
-    //drawVector();
+    // draw gravity vector
+//  drawVector();
+    glPushMatrix();
+    glLoadTransposeMatrixf( m_gravity->matrix );
+    renderGravityVector();
+    glPopMatrix();
     
-    glLoadTransposeMatrixf( m_pose->matrix );
-    
-    // render game board with labyrinth and maze
-    renderBoard();
-
-    // render marble
-    renderMarble();
+    // render game board with labyrinth, maze and marble
+    if(!m_calibrate) {
+        glPushMatrix();
+        glLoadTransposeMatrixf( m_pose->matrix );
+        renderBoard();
+        renderMarble();
+        glPopMatrix();
+    }
     
     glFlush();
     glutSwapBuffers();
@@ -391,38 +431,41 @@ int Graphics::init()
     
     
     // enable lighting
-    glLightfv( GL_LIGHT0, GL_POSITION, light_pos0 );
+//    glLightfv( GL_LIGHT0, GL_POSITION, light_pos0 );
+//    glLightfv( GL_LIGHT0, GL_AMBIENT,  light_amb );
+//    glLightfv( GL_LIGHT0, GL_DIFFUSE,  light_dif0 );
+//    glLightfv( GL_LIGHT0, GL_QUADRATIC_ATTENUATION,  light_quad_att );
+//    glLightfv( GL_LIGHT0, GL_LINEAR_ATTENUATION, light_lin_att );
+//    
+//    glLightfv( GL_LIGHT1, GL_POSITION, light_pos1 );
+//    glLightfv( GL_LIGHT1, GL_AMBIENT,  light_amb );
+//    glLightfv( GL_LIGHT1, GL_DIFFUSE,  light_dif1 );
+// 
+//    glLightfv( GL_LIGHT1, GL_QUADRATIC_ATTENUATION, light_quad_att );
+//    glLightfv( GL_LIGHT1, GL_LINEAR_ATTENUATION, light_lin_att );
+    glLightfv( GL_LIGHT0, GL_POSITION, light_pos );
     glLightfv( GL_LIGHT0, GL_AMBIENT,  light_amb );
-    glLightfv( GL_LIGHT0, GL_DIFFUSE,  light_dif0 );
-    glLightfv( GL_LIGHT0, GL_QUADRATIC_ATTENUATION,  light_quad_att );
-    glLightfv( GL_LIGHT0, GL_LINEAR_ATTENUATION, light_lin_att );
-    
-    glLightfv( GL_LIGHT1, GL_POSITION, light_pos1 );
-    glLightfv( GL_LIGHT1, GL_AMBIENT,  light_amb );
-    glLightfv( GL_LIGHT1, GL_DIFFUSE,  light_dif1 );
- 
-    glLightfv( GL_LIGHT1, GL_QUADRATIC_ATTENUATION, light_quad_att );
-    glLightfv( GL_LIGHT1, GL_LINEAR_ATTENUATION, light_lin_att );
-
-    
+    glLightfv( GL_LIGHT0, GL_DIFFUSE,  light_dif );
     glEnable( GL_LIGHTING );
-    glEnable( GL_LIGHT0 );  
-    glEnable( GL_LIGHT1 );  
+    glEnable( GL_LIGHT0 );
+//    glEnable( GL_LIGHT1 );     
     
     glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);   
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);  
     
-    
-    
-    glBlendFunc(GL_DST_COLOR, GL_SRC_ALPHA);
-    //glBlendFunc(GL_ONE,GL_ONE);
+//    glBlendFunc(GL_DST_COLOR, GL_SRC_ALPHA);
+//    glBlendFunc(GL_ONE,GL_ONE);
     
     buildBlock();
     
     m_texture_labyrinth = LoadTGATexture( "labyrinth.tga");
-    m_texture_marble = LoadTGATexture( "marble.tga");
+//    m_texture_marble = LoadTGATexture( "marble.tga");
     
     glEnable(GL_TEXTURE_2D);
     
     return windowId;
+}
+
+void Graphics::switchCalibrate() {
+    m_calibrate ^= 1;
 }

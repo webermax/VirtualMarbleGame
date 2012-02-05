@@ -16,6 +16,7 @@ TrackingManager::TrackingManager(bool debug, VideoManager* videoManager, Pose* p
     m_debug = debug;
     m_videoManager = videoManager;
     init();
+    m_calibrate = true;
 }
 
 int thresh = 100;//100;
@@ -450,9 +451,14 @@ void TrackingManager::process()
 				corners[i].y = -corners[i].y + CAM_HEIGHT/2;
 			}
             
-            if(code == 0x0d22) estimateSquarePose( m_gravity->matrix, corners, 0.045 );
-			//else if(code == 0x43F6) estimateSquarePose( resultMatrix_0272, corners, 0.045 );
-            else estimateSquarePose( m_pose->matrix, corners, 0.045 );
+//            if(code == 0x0d22) estimateSquarePose( m_gravity->matrix, corners, 0.045 );
+//			//else if(code == 0x43F6) estimateSquarePose( resultMatrix_0272, corners, 0.045 );
+//            else estimateSquarePose( m_pose->matrix, corners, 0.045 );
+            
+            if(m_calibrate)
+                estimateSquarePose( m_gravity->matrix, corners, 0.045 );
+            else
+                estimateSquarePose( m_pose->matrix, corners, 0.045 );
             
             if(m_debug) {
                 for (int i = 0; i<4; ++i) {
@@ -498,4 +504,8 @@ TrackingManager::~TrackingManager()
         cvDestroyWindow ("Marker");
     }
 	cout << "Finished\n";
+}
+
+void TrackingManager::switchCalibrate() {
+    m_calibrate ^= 1;
 }

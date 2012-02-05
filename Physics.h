@@ -20,7 +20,7 @@ class Physics {
 
 public:
     
-    Physics(Labyrinth*, Marble*, Pose*);
+    Physics(Labyrinth*, Marble*, Pose*, Pose*);
     
     ~Physics();
     
@@ -36,6 +36,8 @@ private:
     Marble* m_marble;
     
     Pose* m_pose;
+    
+    Pose* m_gravity;
     
     float x_new;
     
