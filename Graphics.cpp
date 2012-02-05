@@ -6,9 +6,9 @@
 //
 
 #include "Graphics.h"
-
 #include <iostream>
 #include <fstream>
+
 //#include <iomanip>
 
 using namespace std;
@@ -164,6 +164,7 @@ Graphics::Graphics(bool debug, Marble* marble, Labyrinth* labyrinth, VideoManage
     m_debug = debug;
     m_gravity = gravity;
     m_calibrate = 1;
+    rotate90=false;
 }
 
 void Graphics::renderBoard()
@@ -294,18 +295,26 @@ void Graphics::renderMarble()
     
 }
 
+void Graphics::switch90()
+{
+    rotate90=!rotate90;
+}
+
 void Graphics::renderGravityVector() {
     
     glPushMatrix();
     
-    glColor3f(1,0,1); // fuchsia
+    glColor4f(1,0,1,0.5); // fuchsia
     
 //    glLineWidth(10);
 //    glBegin(GL_LINES);
 //    glVertex3f(0,0,0);
 //    glVertex3f(0,-0.1,0);
 //    glEnd();
+    glEnable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
     
+    if(!rotate90)
     glRotatef(90, 1, 0, 0);
     
     gluCylinder(gluNewQuadric(), 0.005, 0.005, 0.1, 20, 20);
@@ -314,6 +323,9 @@ void Graphics::renderGravityVector() {
     
     glutSolidCone( 0.01 , 0.02 , 30 , 30 );
     
+    
+    glDisable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
     glPopMatrix();
     
 }

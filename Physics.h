@@ -25,6 +25,9 @@ public:
     ~Physics();
     
     void process();
+    void switch90();
+    
+    bool  rotate90;
     
 private:
     void CheckFinish();
@@ -38,6 +41,7 @@ private:
     Pose* m_pose;
     
     Pose* m_gravity;
+    
     
     float x_new;
     

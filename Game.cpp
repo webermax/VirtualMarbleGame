@@ -59,6 +59,11 @@ void hitkey( unsigned char key, int x, int y )
             graphics->switchCalibrate();
             trackingManager->switchCalibrate();
             break;
+        case  'r':
+            physics->switch90();
+            graphics->switch90();
+            break;
+            
     }
     //glutPostRedisplay();
 }

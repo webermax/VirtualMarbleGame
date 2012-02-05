@@ -47,7 +47,11 @@ public:
     
     void switchCalibrate();
     
+    void switch90();
+    
 private:
+    
+    bool rotate90;
     
     Board* m_board;
     
