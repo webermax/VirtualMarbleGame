@@ -27,6 +27,8 @@ void VideoManager::initVideoStream() {
         exit(0);
     }
     capture();
+    cvSetCaptureProperty( m_cap, CV_CAP_PROP_FRAME_WIDTH, 640 );
+    cvSetCaptureProperty( m_cap, CV_CAP_PROP_FRAME_HEIGHT, 480 );
 }
 
 void VideoManager::capture() {
