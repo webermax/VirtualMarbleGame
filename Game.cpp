@@ -174,7 +174,7 @@ int main(int argc, char* argv[])
     trackingManager = new TrackingManager(debug, videoManager, pose, gravity);
     marble = new Marble(0, 0, -3, 0.4, 1);
     labyrinth = new Labyrinth();
-    graphics = new Graphics(marble, labyrinth, videoManager, pose);
+    graphics = new Graphics(debug, marble, labyrinth, videoManager, pose);
     physics = new Physics(labyrinth, marble, pose);
     
     windowId = graphics->init();

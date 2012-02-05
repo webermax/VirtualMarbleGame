@@ -31,7 +31,7 @@ class Graphics {
     
 public:
     
-    Graphics(Marble*, Labyrinth*, VideoManager*, Pose*);  
+    Graphics(bool, Marble*, Labyrinth*, VideoManager*, Pose*);  
     
     void display();
  
@@ -74,6 +74,8 @@ private:
     GLuint m_texture_marble;
     
     double ry;
+    
+    bool m_debug;
     
 };
 
