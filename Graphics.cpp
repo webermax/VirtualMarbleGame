@@ -177,7 +177,7 @@ void Graphics::renderBoard()
     glColor4f(1,1,1,1); // white
     
     glBegin(GL_QUADS);
-    
+    glNormal3f(0,0,-1);
     glVertex3d(-Labyrinth_size/2,-Labyrinth_size/2,1);
     glVertex3d(Labyrinth_size/2,-Labyrinth_size/2,1);
     glVertex3d(Labyrinth_size/2,Labyrinth_size/2,1);
@@ -429,31 +429,28 @@ int Graphics::init()
     GLfloat light_lin_att[] = { 10.0};
 
     
-    
     // enable lighting
-//    glLightfv( GL_LIGHT0, GL_POSITION, light_pos0 );
-//    glLightfv( GL_LIGHT0, GL_AMBIENT,  light_amb );
-//    glLightfv( GL_LIGHT0, GL_DIFFUSE,  light_dif0 );
-//    glLightfv( GL_LIGHT0, GL_QUADRATIC_ATTENUATION,  light_quad_att );
-//    glLightfv( GL_LIGHT0, GL_LINEAR_ATTENUATION, light_lin_att );
-//    
-//    glLightfv( GL_LIGHT1, GL_POSITION, light_pos1 );
-//    glLightfv( GL_LIGHT1, GL_AMBIENT,  light_amb );
-//    glLightfv( GL_LIGHT1, GL_DIFFUSE,  light_dif1 );
-// 
-//    glLightfv( GL_LIGHT1, GL_QUADRATIC_ATTENUATION, light_quad_att );
-//    glLightfv( GL_LIGHT1, GL_LINEAR_ATTENUATION, light_lin_att );
-    glLightfv( GL_LIGHT0, GL_POSITION, light_pos );
+    glLightfv( GL_LIGHT0, GL_POSITION, light_pos0 );
     glLightfv( GL_LIGHT0, GL_AMBIENT,  light_amb );
-    glLightfv( GL_LIGHT0, GL_DIFFUSE,  light_dif );
+    glLightfv( GL_LIGHT0, GL_DIFFUSE,  light_dif0 );
+    glLightfv( GL_LIGHT0, GL_QUADRATIC_ATTENUATION,  light_quad_att );
+    glLightfv( GL_LIGHT0, GL_LINEAR_ATTENUATION, light_lin_att );
+    
+    glLightfv( GL_LIGHT1, GL_POSITION, light_pos1 );
+    glLightfv( GL_LIGHT1, GL_AMBIENT,  light_amb );
+    glLightfv( GL_LIGHT1, GL_DIFFUSE,  light_dif1 ); 
+    glLightfv( GL_LIGHT1, GL_QUADRATIC_ATTENUATION, light_quad_att );
+    glLightfv( GL_LIGHT1, GL_LINEAR_ATTENUATION, light_lin_att );
+
+    
     glEnable( GL_LIGHTING );
-    glEnable( GL_LIGHT0 );
-//    glEnable( GL_LIGHT1 );     
+    glEnable( GL_LIGHT0 );  
+    glEnable( GL_LIGHT1 );  
     
     glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);   
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);  
     
-//    glBlendFunc(GL_DST_COLOR, GL_SRC_ALPHA);
+    glBlendFunc(GL_DST_COLOR, GL_SRC_ALPHA);
 //    glBlendFunc(GL_ONE,GL_ONE);
     
     buildBlock();
