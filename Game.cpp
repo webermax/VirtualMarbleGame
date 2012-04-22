@@ -180,7 +180,7 @@ int main(int argc, char* argv[])
     // make functions known to GLUT
     glutDisplayFunc( display );
     glutReshapeFunc( resize  );
-    glutIdleFunc( idle );
+    //glutIdleFunc( idle );
     glutKeyboardFunc( hitkey );
     glutTimerFunc(t, trackingTimer, 1);
     glutTimerFunc(t, physicsTimer, 1);
